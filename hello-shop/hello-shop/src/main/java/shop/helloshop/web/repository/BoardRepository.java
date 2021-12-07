@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Board;
+import shop.helloshop.domain.entity.items.Comment;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -38,6 +39,7 @@ public class BoardRepository {
                 .setParameter("title", title)
                 .getResultList();
     }
+
 
 
     public void updateBoard(Board board) {

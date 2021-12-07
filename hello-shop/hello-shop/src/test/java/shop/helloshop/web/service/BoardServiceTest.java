@@ -91,9 +91,11 @@ class BoardServiceTest {
 
         List<Board> boards = boardService.boardList(title);
         List<Board> testBoards = boardService.boardList("사이즈 0이여야 함");
+        List<Board> testBoards1 = boardService.boardList("    ");
         //then
         assertEquals(boards.size(),1);
         assertEquals(testBoards.size(),0);
+        assertEquals(testBoards1.size(),1);
     }
 
 

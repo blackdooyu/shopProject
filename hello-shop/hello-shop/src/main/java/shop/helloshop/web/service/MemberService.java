@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
+import shop.helloshop.domain.entity.items.Comment;
 import shop.helloshop.web.exception.MemberException;
 import shop.helloshop.web.repository.MemberRepository;
 
@@ -30,6 +31,7 @@ public class MemberService {
     public List<Member> findAll() {
         return memberRepository.members();
     }
+
 
     private void validateMember(Member member) {
         List<Member> findEmail = memberRepository.findByEmail(member.getEmail());

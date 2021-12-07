@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Board;
+import shop.helloshop.domain.entity.items.Comment;
 import shop.helloshop.web.repository.BoardRepository;
 
 import java.util.List;
@@ -39,5 +40,6 @@ public class BoardService {
     public List<Board> boardList(String title) {
         return boardRepository.findTitle(title);
     }
+
 
 }

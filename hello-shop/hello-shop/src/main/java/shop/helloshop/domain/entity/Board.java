@@ -3,6 +3,7 @@ package shop.helloshop.domain.entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import shop.helloshop.domain.entity.items.Comment;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,10 @@ public class Board {
 
     @OneToMany(mappedBy = "board" ,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<UploadFile> uploadFiles = new ArrayList<>();
+
+    //댓글 repository,service 만들어야함
+    @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
+    private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
