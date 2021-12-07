@@ -1,5 +1,6 @@
 package shop.helloshop.domain.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Setter @Getter
+@EqualsAndHashCode
 public class Member {
 
     @Id @GeneratedValue
@@ -21,7 +23,6 @@ public class Member {
 
     @Embedded
     private Address address;
-
 
 
 }
