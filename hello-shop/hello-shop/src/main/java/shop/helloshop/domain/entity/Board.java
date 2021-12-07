@@ -23,7 +23,7 @@ public class Board {
 
     private int stars;
 
-    @OneToMany(mappedBy = "board" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "board" ,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,6 +34,6 @@ public class Board {
     public void updateBoard(String title,String mainText,List<UploadFile> uploadFiles) {
         this.title = title;
         this.mainText = mainText;
-        setUploadFiles(uploadFiles);
+        this.setUploadFiles(uploadFiles);
     }
 }
