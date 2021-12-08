@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Board;
+import shop.helloshop.domain.entity.Member;
 
 import javax.persistence.EntityManager;
 
@@ -27,15 +28,17 @@ class BoardServiceTest {
     String title = "테스트 타이들";
     String mainText = "본문 내용 테스트입니다.";
 
+    Member member = new Member();
+
     @Test
     void 게시물_저장() {
-
         //given
         Board board = new Board();
         board.setTitle(title);
         board.setMainText(mainText);
+        em.persist(member);
         //when
-        boardService.join(board);
+        boardService.join(member.getId(),board);
 
         //then
         assertEquals(title,boardService.findOne(board.getId()).getTitle());
@@ -47,8 +50,9 @@ class BoardServiceTest {
 
         //given
         Board board = boardMake();
+        em.persist(member);
         //when
-        boardService.join(board);
+        boardService.join(member.getId(),board);
         boardService.remove(board.getId());
 
 
@@ -60,9 +64,10 @@ class BoardServiceTest {
     void 게시물_업데이트() {
 
         //given
+        em.persist(member);
         Board board = boardMake();
         //when
-        boardService.join(board);
+        boardService.join(member.getId(),board);
         Board newBoard = new Board();
         String update = "업데이트";
         newBoard.setId(board.getId());
@@ -83,8 +88,9 @@ class BoardServiceTest {
 
         //given
         Board board = boardMake();
+        em.persist(member);
         //when
-        boardService.join(board);
+        boardService.join(member.getId(),board);
 
         em.flush();
         em.clear();

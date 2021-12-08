@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Board;
+import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.items.Comment;
 import shop.helloshop.web.repository.BoardRepository;
+import shop.helloshop.web.repository.MemberRepository;
 
 import java.util.List;
 
@@ -15,9 +17,14 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
-    public Long join(Board board) {
+    public Long join(Long memberId,Board board) {
+
+        Member findMember = memberRepository.findOne(memberId);
+        board.setMember(findMember);
+
         return boardRepository.save(board);
     }
 
