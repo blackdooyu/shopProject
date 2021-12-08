@@ -34,5 +34,17 @@ public class Member {
     @Embedded
     private Address address;
 
+    //생성 편의 메서드
+    public static Member createMember(String email, String password, String name, Address address) {
+
+        Member member = new Member();
+        member.setEmail(email);
+        member.setPassword(password);
+        member.setName(name);
+        member.setAddress(address);
+
+        return member;
+    }
+
 
 }

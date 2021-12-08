@@ -18,14 +18,14 @@
                     </ul>
                 </li>
             </ul>
-            <form class="d-flex" th:if="${memberId == null}">
-                <li><a class="dropdown-item" href="#!">로그인</a></li>
-                <li><a class="dropdown-item" href="#!">회원가입</a></li>
+            <form class="d-flex" th:if="${member == null}">
+                <li><a class="dropdown-item" href="/login">로그인</a></li>
+                <li><a class="dropdown-item" href="/member/add">회원가입</a></li>
                 </button>
             </form>
-            <form class="d-flex" th:unless="${memberId == null}">
-                <li><a class="dropdown-item" href="#!"></a></li>
-                <li><a class="dropdown-item" href="#!">로그아웃</a></li>
+            <form class="d-flex" th:unless="${member == null}">
+                <li><a class="dropdown-item" href="#!" th:text="${member.name}"></a></li>
+                <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
                 </button>
             </form>
         </div>
