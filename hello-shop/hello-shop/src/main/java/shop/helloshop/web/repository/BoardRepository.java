@@ -28,6 +28,11 @@ public class BoardRepository {
         em.remove(board);
     }
 
+    /*
+    제목으로 찾기
+    아무값도 넘어오지 않을경우 전체 게시물 return
+    title 에 값이 있을경우 그 값으로 게시물을 찾아온다
+     */
     public List<Board> findTitle(String title) {
 
         if (title.trim().isEmpty()){

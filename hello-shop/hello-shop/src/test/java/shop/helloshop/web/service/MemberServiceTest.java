@@ -1,6 +1,5 @@
 package shop.helloshop.web.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +28,7 @@ class MemberServiceTest {
         member.setPassword("123213");
 
         //when
-        memberService.join(member);
+        memberService.save(member);
 
         //then
         assertEquals(member,memberRepository.findOne(member.getId()));
@@ -44,10 +43,10 @@ class MemberServiceTest {
         Member member1 = new Member();
         member1.setEmail("zxc123@naver.com");
         //when
-        memberService.join(member);
+        memberService.save(member);
 
         //then
-        assertThrows(MemberException.class, () -> memberService.join(member1));
+        assertThrows(MemberException.class, () -> memberService.save(member1));
     }
 
     @Test
@@ -59,10 +58,10 @@ class MemberServiceTest {
         Member member1 = new Member();
         member1.setName("김");
         //when
-        memberService.join(member);
+        memberService.save(member);
 
         //then
-        assertThrows(MemberException.class, () -> memberService.join(member1));
+        assertThrows(MemberException.class, () -> memberService.save(member1));
     }
 
 }

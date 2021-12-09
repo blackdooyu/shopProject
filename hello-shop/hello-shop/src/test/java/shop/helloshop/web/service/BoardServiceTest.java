@@ -1,8 +1,6 @@
 package shop.helloshop.web.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +9,6 @@ import shop.helloshop.domain.entity.Member;
 
 import javax.persistence.EntityManager;
 
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +35,7 @@ class BoardServiceTest {
         board.setMainText(mainText);
         em.persist(member);
         //when
-        boardService.join(member.getId(),board);
+        boardService.save(member.getId(),board);
 
         //then
         assertEquals(title,boardService.findOne(board.getId()).getTitle());
@@ -52,7 +49,7 @@ class BoardServiceTest {
         Board board = boardMake();
         em.persist(member);
         //when
-        boardService.join(member.getId(),board);
+        boardService.save(member.getId(),board);
         boardService.remove(board.getId());
 
 
@@ -67,7 +64,7 @@ class BoardServiceTest {
         em.persist(member);
         Board board = boardMake();
         //when
-        boardService.join(member.getId(),board);
+        boardService.save(member.getId(),board);
         Board newBoard = new Board();
         String update = "업데이트";
         newBoard.setId(board.getId());
@@ -90,7 +87,7 @@ class BoardServiceTest {
         Board board = boardMake();
         em.persist(member);
         //when
-        boardService.join(member.getId(),board);
+        boardService.save(member.getId(),board);
 
         em.flush();
         em.clear();

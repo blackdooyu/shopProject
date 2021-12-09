@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import shop.helloshop.domain.entity.Address;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.web.argumentresolver.Login;
-import shop.helloshop.web.dto.LoginForm;
-import shop.helloshop.web.dto.MemberDto;
-import shop.helloshop.web.dto.MemberSessionDto;
-import shop.helloshop.web.dto.SessionKey;
+import shop.helloshop.web.dto.*;
 import shop.helloshop.web.exception.MemberException;
 import shop.helloshop.web.service.MemberService;
 
@@ -37,15 +34,15 @@ public class LoginController {
         member.setEmail("asd123@naver.com");
         member.setPassword("123123");
 
-        memberService.join(member);
+        memberService.save(member);
     }
 
     @GetMapping("/")
-    public String homepage(@Login MemberSessionDto sessionDto , Model model) {
+    public String homepage(@Login MemberSessionDto sessionDto, Model model) {
 
 
         if (sessionDto == null) {
-           return "home";
+            return "home";
         }
 
         model.addAttribute("member", sessionDto);
@@ -61,7 +58,7 @@ public class LoginController {
     }
 
     @PostMapping("/member/add")
-    public String addMember(@Validated @ModelAttribute("member") MemberDto memberDto,BindingResult bindingResult) {
+    public String addMember(@Validated @ModelAttribute("member") MemberDto memberDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "/login/addMember";
@@ -71,9 +68,9 @@ public class LoginController {
                 new Address(memberDto.getCity(), memberDto.getStreet(), memberDto.getZipcode()));
 
         try {
-            memberService.join(member);
+            memberService.save(member);
         } catch (MemberException e) {
-            bindingResult.reject("signUpFail",e.getMessage());
+            bindingResult.reject("signUpFail", e.getMessage());
             return "/login/addMember";
         }
 
@@ -91,7 +88,6 @@ public class LoginController {
     }
 
 
-
     @PostMapping("/login")
     public String login(@Validated @ModelAttribute("login") LoginForm loginForm, BindingResult bindingResult,
                         HttpServletRequest request) {
@@ -103,12 +99,12 @@ public class LoginController {
         MemberSessionDto memberSession = memberService.login(loginForm);
 
         if (memberSession == null) {
-            bindingResult.reject("loginFail","Email 또는 Password 가 일치하지 않습니다.");
+            bindingResult.reject("loginFail", "Email 또는 Password 가 일치하지 않습니다.");
             return "/login/loginform";
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute(SessionKey.LOGIN_MEMBER,memberSession);
+        session.setAttribute(SessionKey.LOGIN_MEMBER, memberSession);
 
         return "redirect:/";
     }
@@ -119,5 +115,57 @@ public class LoginController {
         HttpSession session = request.getSession(false);
         session.invalidate();
         return "redirect:/";
+    }
+
+    @GetMapping("/member/update/check")
+    public String passwordCheckForm(Model model) {
+        PasswordForm passwordForm = new PasswordForm();
+        model.addAttribute("passwordForm", passwordForm);
+        return "/login/passwordCheck";
+    }
+
+    @PostMapping("/member/update/check")
+    public String passwordCheck(@Validated @ModelAttribute PasswordForm password, BindingResult bindingResult, @Login MemberSessionDto memberSessionDto
+                               ) {
+
+        if (bindingResult.hasErrors()) {
+            return "/login/passwordCheck";
+        }
+
+        Member findMember = memberService.findOne(memberSessionDto.getId());
+
+        if (!findMember.getPassword().equals(password.getPassword())) {
+            bindingResult.reject("passwordMismatch", "비밀번호가 맞지 않습니다");
+            return "/login/passwordCheck";
+        }
+
+
+        return "redirect:/member/update";
+    }
+
+    @GetMapping("/member/update")
+    public String memberUpdateForm(@Login MemberSessionDto memberSessionDto,Model model) {
+
+        Member findMember = memberService.findOne(memberSessionDto.getId());
+
+        MemberDto updateForm = MemberDto.createUpdateForm(findMember.getEmail(), findMember.getName(), findMember.getAddress());
+        model.addAttribute("update", updateForm);
+
+        return "/login/updateForm";
+    }
+
+    //세션으로만 체크할경우 비밀번호 설정을 건너뛸수 있기때문에 보강 필요
+    @PostMapping("/member/update")
+    public String memberUpdate(@Validated @ModelAttribute("update") MemberDto memberDto,BindingResult bindingResult,
+                               @Login MemberSessionDto memberSessionDto) {
+
+        if (bindingResult.hasErrors()) {
+            return "/login/updateForm";
+        }
+
+        memberDto.setId(memberSessionDto.getId());
+        memberService.update(memberDto);
+
+        return "redirect:/logout";
     }
 }

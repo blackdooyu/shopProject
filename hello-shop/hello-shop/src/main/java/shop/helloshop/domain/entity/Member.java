@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import shop.helloshop.domain.entity.items.Comment;
+import shop.helloshop.web.dto.MemberDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ public class Member {
     @Embedded
     private Address address;
 
+
     //생성 편의 메서드
     public static Member createMember(String email, String password, String name, Address address) {
 
@@ -44,6 +46,16 @@ public class Member {
         member.setAddress(address);
 
         return member;
+    }
+
+    //update 편의 메서드
+    public void updateMember(MemberDto memberDto) {
+
+        this.setEmail(memberDto.getEmail());
+        this.setPassword(memberDto.getPassword());
+        this.setName(memberDto.getName());
+        this.setAddress(memberDto.getAddress());
+
     }
 
 

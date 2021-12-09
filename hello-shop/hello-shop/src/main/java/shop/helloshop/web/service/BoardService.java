@@ -20,7 +20,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long join(Long memberId,Board board) {
+    public Long save(Long memberId, Board board) {
 
         Member findMember = memberRepository.findOne(memberId);
         board.setMember(findMember);
@@ -43,7 +43,7 @@ public class BoardService {
         boardRepository.updateBoard(board);
     }
 
-
+    //게시물 제목으로 찾기 기능
     public List<Board> boardList(String title) {
         return boardRepository.findTitle(title);
     }
