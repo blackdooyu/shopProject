@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Board;
 import shop.helloshop.domain.entity.Member;
-import shop.helloshop.domain.entity.items.Comment;
 import shop.helloshop.web.repository.BoardRepository;
 import shop.helloshop.web.repository.MemberRepository;
 

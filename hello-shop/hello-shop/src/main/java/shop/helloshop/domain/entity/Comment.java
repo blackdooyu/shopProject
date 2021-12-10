@@ -1,4 +1,4 @@
-package shop.helloshop.domain.entity.items;
+package shop.helloshop.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;

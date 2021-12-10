@@ -3,7 +3,7 @@ package shop.helloshop.domain.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import shop.helloshop.domain.entity.items.Comment;
+import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.web.dto.MemberDto;
 
 import javax.persistence.*;
@@ -25,8 +25,13 @@ public class Member {
 
     private String name;
 
-    //댓글 repository,service 만들어야함
+    @Enumerated(EnumType.STRING)
+    private MemberGrade memberGrade;
+
     @OneToMany(mappedBy = "member")
+    private List<Item> itemList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
@@ -44,6 +49,7 @@ public class Member {
         member.setPassword(password);
         member.setName(name);
         member.setAddress(address);
+        member.setMemberGrade(MemberGrade.BASIC);
 
         return member;
     }

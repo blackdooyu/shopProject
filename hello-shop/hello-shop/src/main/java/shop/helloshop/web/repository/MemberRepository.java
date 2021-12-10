@@ -2,10 +2,8 @@ package shop.helloshop.web.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import shop.helloshop.domain.entity.Board;
+import shop.helloshop.domain.entity.Comment;
 import shop.helloshop.domain.entity.Member;
-import shop.helloshop.domain.entity.items.Comment;
-import shop.helloshop.web.dto.LoginForm;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -41,6 +39,7 @@ public class MemberRepository {
                 .getResultList();
 
     }
+
 
 
 

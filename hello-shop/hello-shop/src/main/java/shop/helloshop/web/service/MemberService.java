@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
-import shop.helloshop.domain.entity.items.Comment;
 import shop.helloshop.web.dto.LoginForm;
 import shop.helloshop.web.dto.MemberDto;
 import shop.helloshop.web.dto.MemberSessionDto;

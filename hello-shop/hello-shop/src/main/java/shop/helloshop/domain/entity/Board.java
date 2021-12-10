@@ -2,11 +2,8 @@ package shop.helloshop.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
-import shop.helloshop.domain.entity.items.Comment;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 

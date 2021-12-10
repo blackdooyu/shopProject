@@ -29,4 +29,25 @@ public class OrderItem {
 
     private int count;
 
+    //생성 편의 메서드로만 생성할수있게 막기
+    protected OrderItem() {
+    }
+
+    //생성 편의 메서드
+    public static OrderItem createOrderItem(Item item,int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setCount(count);
+        orderItem.setItem(item);
+        int orderPrice = item.getPrice(count);
+        orderItem.setOrderPrice(orderPrice);
+
+        item.sale(count);
+
+        return orderItem;
+    }
+
+    //주문 취소
+    public void cancel() {
+        this.item.cancel(count);
+    }
 }

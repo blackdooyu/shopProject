@@ -2,6 +2,7 @@ package shop.helloshop.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import shop.helloshop.domain.entity.items.Item;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -17,6 +18,10 @@ public class UploadFile {
     private String originalURL;
 
     private String uniqueURL;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item")
+    private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
