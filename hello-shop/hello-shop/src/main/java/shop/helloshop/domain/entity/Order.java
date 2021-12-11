@@ -43,7 +43,7 @@ public class Order {
         order.setDeliveryStatus(DeliveryStatus.READY);
 
         for (OrderItem orderItem : orderItems) {
-            order.getOrderItems().add(orderItem);
+             order.addOrderItem(orderItem);
         }
 
         return order;
@@ -60,4 +60,11 @@ public class Order {
             orderItem.cancel();
         }
     }
+
+    //연관관계 편의 메서드
+    public void addOrderItem(OrderItem orderItem) {
+        this.getOrderItems().add(orderItem);
+        orderItem.setOrder(this);
+    }
+
 }

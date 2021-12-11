@@ -14,7 +14,7 @@ import shop.helloshop.domain.entity.Member;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.*;
 import shop.helloshop.web.exception.MemberException;
-import shop.helloshop.web.service.MemberService;
+import shop.helloshop.domain.service.MemberService;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +33,7 @@ public class LoginController {
         member.setName("테스트");
         member.setEmail("asd123@naver.com");
         member.setPassword("123123");
+        member.setAddress(new Address("1","2","3"));
 
         memberService.save(member);
     }
@@ -148,7 +149,8 @@ public class LoginController {
 
         Member findMember = memberService.findOne(memberSessionDto.getId());
 
-        MemberDto updateForm = MemberDto.createUpdateForm(findMember.getEmail(), findMember.getName(), findMember.getAddress());
+        MemberDto updateForm = MemberDto.createUpdateForm(findMember.getEmail(), findMember.getName(),
+                findMember.getAddress());
         model.addAttribute("update", updateForm);
 
         return "/login/updateForm";

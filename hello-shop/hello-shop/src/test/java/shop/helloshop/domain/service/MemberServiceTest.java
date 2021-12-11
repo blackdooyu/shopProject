@@ -1,4 +1,4 @@
-package shop.helloshop.web.service;
+package shop.helloshop.domain.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.web.exception.MemberException;
-import shop.helloshop.web.repository.MemberRepository;
+import shop.helloshop.domain.repository.MemberRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -34,7 +34,8 @@ public class MemberDto {
     @NotBlank(message = "필수 값 입니다")
     private String zipcode;
 
-    private Address address;
+
+
 
 
     public static MemberDto createUpdateForm(String email, String name, Address address) {
@@ -42,7 +43,9 @@ public class MemberDto {
         MemberDto memberDto = new MemberDto();
         memberDto.setEmail(email);
         memberDto.setName(name);
-        memberDto.setAddress(address);
+        memberDto.setCity(address.getCity());
+        memberDto.setStreet(address.getStreet());
+        memberDto.setZipcode(address.getZipcode());
         return memberDto;
     }
 

@@ -1,12 +1,13 @@
-package shop.helloshop.web.service;
+package shop.helloshop.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
+import shop.helloshop.domain.entity.UploadFile;
 import shop.helloshop.domain.entity.items.Item;
-import shop.helloshop.web.repository.ItemRepository;
-import shop.helloshop.web.repository.MemberRepository;
+import shop.helloshop.domain.repository.ItemRepository;
+import shop.helloshop.domain.repository.MemberRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,19 +17,20 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ItemService {
 
-    private MemberRepository memberRepository;
-    private ItemRepository itemRepository;
+    private final MemberRepository memberRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
-    private void save(Item item,Long memberId) {
+    public void save(Item item,Long memberId) {
         Member findMember = memberRepository.findOne(memberId);
         item.setMember(findMember);
         item.setLocalDateTime(LocalDateTime.now());
         itemRepository.save(item);
     }
 
+
     @Transactional
-    private void update(Long itemId,String name,int price,int quantity) {
+    public void update(Long itemId,String name,int price,int quantity) {
         Item findItem = itemRepository.findOne(itemId);
         findItem.update(name,price,quantity);
     }

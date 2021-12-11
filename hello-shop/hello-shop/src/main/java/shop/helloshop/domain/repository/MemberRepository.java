@@ -1,8 +1,7 @@
-package shop.helloshop.web.repository;
+package shop.helloshop.domain.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import shop.helloshop.domain.entity.Comment;
 import shop.helloshop.domain.entity.Member;
 
 import javax.persistence.EntityManager;

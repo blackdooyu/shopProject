@@ -1,13 +1,12 @@
-package shop.helloshop.web.repository;
+package shop.helloshop.domain.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import shop.helloshop.domain.entity.UploadFile;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.web.dto.FindSort;
-import shop.helloshop.web.dto.SessionKey;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository

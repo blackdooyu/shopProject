@@ -1,15 +1,16 @@
-package shop.helloshop.web.service;
+package shop.helloshop.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
+import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.web.dto.LoginForm;
 import shop.helloshop.web.dto.MemberDto;
 import shop.helloshop.web.dto.MemberSessionDto;
 import shop.helloshop.web.exception.MemberException;
-import shop.helloshop.web.repository.MemberRepository;
+import shop.helloshop.domain.repository.MemberRepository;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class MemberService {
         Member findMember = memberRepository.findOne(memberDto.getId());
         findMember.updateMember(memberDto);
     }
+
 
     public MemberSessionDto login(LoginForm loginForm) {
         return validateLogin(loginForm);

@@ -11,7 +11,7 @@ import javax.persistence.Enumerated;
 @Entity
 @DiscriminatorValue("T")
 @Getter @Setter
-public class clothes extends Item{
+public class Clothes extends Item{
 
     private String brand;
 

@@ -1,12 +1,12 @@
-package shop.helloshop.web.service;
+package shop.helloshop.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Board;
 import shop.helloshop.domain.entity.Member;
-import shop.helloshop.web.repository.BoardRepository;
-import shop.helloshop.web.repository.MemberRepository;
+import shop.helloshop.domain.repository.BoardRepository;
+import shop.helloshop.domain.repository.MemberRepository;
 
 import java.util.List;
 

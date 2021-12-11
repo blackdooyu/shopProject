@@ -11,6 +11,12 @@ import java.util.UUID;
 @Getter @Setter
 public class UploadFile {
 
+
+    public UploadFile(String originalURL, String uniqueURL) {
+        this.originalURL = originalURL;
+        this.uniqueURL = uniqueURL;
+    }
+
     @Id @GeneratedValue
     @Column(name = "upload_file_id")
     private Long id;
@@ -20,12 +26,16 @@ public class UploadFile {
     private String uniqueURL;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item")
+    @JoinColumn(name = "item_id")
     private Item item;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
+    public void add(Item item) {
+        this.setItem(item);
+    }
 
 
 

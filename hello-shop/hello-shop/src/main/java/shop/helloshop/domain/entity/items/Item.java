@@ -31,7 +31,7 @@ public abstract class Item {
 
     private Long salesQuantity;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item",cascade = CascadeType.ALL )
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

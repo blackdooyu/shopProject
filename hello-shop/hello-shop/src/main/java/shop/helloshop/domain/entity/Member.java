@@ -28,6 +28,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberGrade memberGrade;
 
+
     @OneToMany(mappedBy = "member")
     private List<Item> itemList = new ArrayList<>();
 
@@ -60,7 +61,7 @@ public class Member {
         this.setEmail(memberDto.getEmail());
         this.setPassword(memberDto.getPassword());
         this.setName(memberDto.getName());
-        this.setAddress(memberDto.getAddress());
+        this.setAddress(new Address(memberDto.getCity(),memberDto.getStreet(),memberDto.getZipcode()));
 
     }
 

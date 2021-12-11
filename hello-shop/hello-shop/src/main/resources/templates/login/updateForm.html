@@ -72,23 +72,23 @@
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control" th:field="${update.address.city}" id="floatingInput"
+            <input type="text" class="form-control" th:field="*{city}" id="floatingInput"
                    th:errorclass="field-error">
-            <div class="field-error" th:errors="*{address.city}" />
+            <div class="field-error" th:errors="*{city}" />
             <label for="floatingInput">시도</label>
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control" th:field="${update.address.street}" id="floatingInput"
+            <input type="text" class="form-control" th:field="*{street}" id="floatingInput"
                    th:errorclass="field-error">
-            <div class="field-error" th:errors="*{address.street}" />
+            <div class="field-error" th:errors="*{street}" />
             <label for="floatingInput">시군구</label>
         </div>
 
         <div class="form-floating">
-            <input type="text" class="form-control" th:field="${update.address.zipcode}" id="floatingInput"
+            <input type="text" class="form-control" th:field="*{zipcode}" id="floatingInput"
                    th:errorclass="field-error">
-            <div class="field-error" th:errors="*{address.zipcode}" />
+            <div class="field-error" th:errors="*{zipcode}" />
             <label for="floatingInput">상세주소</label>
         </div>
 
