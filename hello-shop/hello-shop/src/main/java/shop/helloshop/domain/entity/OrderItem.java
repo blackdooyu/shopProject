@@ -2,12 +2,9 @@ package shop.helloshop.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.util.Lazy;
 import shop.helloshop.domain.entity.items.Item;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -38,7 +35,7 @@ public class OrderItem {
         OrderItem orderItem = new OrderItem();
         orderItem.setCount(count);
         orderItem.setItem(item);
-        int orderPrice = item.getPrice(count);
+        int orderPrice = item.getTotalPrice(count);
         orderItem.setOrderPrice(orderPrice);
 
         item.sale(count);

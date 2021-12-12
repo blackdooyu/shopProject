@@ -63,7 +63,7 @@ public abstract class Item {
     }
 
     //가격 메서드
-    public int getPrice(int quantity) {
+    public int getTotalPrice(int quantity) {
         return this.price*quantity;
     }
 
