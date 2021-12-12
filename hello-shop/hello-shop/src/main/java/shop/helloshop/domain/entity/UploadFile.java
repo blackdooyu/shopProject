@@ -33,9 +33,6 @@ public class UploadFile {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public void add(Item item) {
-        this.setItem(item);
-    }
 
 
 

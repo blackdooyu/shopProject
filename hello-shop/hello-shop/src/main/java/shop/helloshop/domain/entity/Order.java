@@ -36,7 +36,7 @@ public class Order {
     }
 
     //생성 메서드
-    public Order createOrder(Member member ,OrderItem... orderItems) {
+    public static Order createOrder(Member member ,List<OrderItem> orderItems) {
         Order order = new Order();
         order.setMember(member);
         order.setAddress(member.getAddress());
@@ -52,7 +52,7 @@ public class Order {
     //주문취소 메서드
     public void cancel() {
         if (this.deliveryStatus.equals(DeliveryStatus.COMP)) {
-            throw new OrderException("이미 배송된 상풉입니다.");
+            throw new OrderException("이미 배송된 상품입니다.");
         }
         this.deliveryStatus = DeliveryStatus.CANCEL;
         List<OrderItem> orderItems = this.getOrderItems();

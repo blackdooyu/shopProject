@@ -25,6 +25,7 @@ public class ItemService {
         Member findMember = memberRepository.findOne(memberId);
         item.setMember(findMember);
         item.setLocalDateTime(LocalDateTime.now());
+        item.setSalesQuantity(0L);
         itemRepository.save(item);
     }
 

@@ -3,6 +3,7 @@ package shop.helloshop.domain.entity.items;
 import lombok.Getter;
 import lombok.Setter;
 import shop.helloshop.domain.entity.Member;
+import shop.helloshop.domain.entity.OrderItem;
 import shop.helloshop.domain.entity.UploadFile;
 import shop.helloshop.web.exception.ItemException;
 
@@ -38,6 +39,12 @@ public abstract class Item {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    //연관관계 편의 메서드
+    public void addUploadFile(UploadFile uploadFile) {
+        this.uploadFiles.add(uploadFile);
+        uploadFile.setItem(this);
+    }
+
     //Update 편의 메서드
     public void update(String name, int price , int quantity) {
         this.name = name;
@@ -47,7 +54,6 @@ public abstract class Item {
 
     //판매될시 수량 빼기, 판매량 증가,수량 체크 메서드
     public void sale(int quantity) {
-
         if(this.quantity - quantity < 0){
             throw new ItemException("현재수량 주문수량보다 부족합니다.");
         }
