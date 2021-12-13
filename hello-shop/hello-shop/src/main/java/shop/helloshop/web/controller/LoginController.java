@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.helloshop.domain.entity.Address;
 import shop.helloshop.domain.entity.Member;
+import shop.helloshop.domain.entity.MemberGrade;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.*;
 import shop.helloshop.web.exception.MemberException;
@@ -34,6 +35,7 @@ public class LoginController {
         member.setEmail("asd123@naver.com");
         member.setPassword("123123");
         member.setAddress(new Address("1","2","3"));
+        member.setMemberGrade(MemberGrade.MANAGER);
 
         memberService.save(member);
     }

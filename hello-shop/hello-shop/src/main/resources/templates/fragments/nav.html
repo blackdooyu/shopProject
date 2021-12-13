@@ -64,6 +64,7 @@
                     <button class="dropbtn" th:text="${member.name}">Dropdown</button>
                     <div class="dropdown-content">
                         <a href="/member/update/check">회원수정</a>
+                        <a th:if="${member.memberGrade == T(shop.helloshop.domain.entity.MemberGrade).MANAGER}" href="/logout">상품 추가</a>
                         <a href="#">구매목록</a>
                         <a href="#">찜한목록</a>
                         <a href="/logout">로그아웃</a>

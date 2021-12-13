@@ -38,7 +38,7 @@ public class MemberDto {
 
 
 
-    public static MemberDto createUpdateForm(String email, String name, Address address) {
+    public static MemberDto createUpdateForm(String email,String name, Address address) {
 
         MemberDto memberDto = new MemberDto();
         memberDto.setEmail(email);

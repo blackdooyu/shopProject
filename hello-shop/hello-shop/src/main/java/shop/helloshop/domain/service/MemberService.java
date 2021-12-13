@@ -62,7 +62,7 @@ public class MemberService {
         }
         for (Member member : findEmail) {
             if (member.getPassword().equals(loginForm.getPassword())) {
-                return new MemberSessionDto(member.getId(), member.getName());
+                return new MemberSessionDto(member.getId(), member.getName(),member.getMemberGrade());
             }
         }
 
