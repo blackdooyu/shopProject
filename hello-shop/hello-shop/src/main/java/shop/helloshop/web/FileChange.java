@@ -37,10 +37,10 @@ public class FileChange {
         }
 
         String originalFilename = multipartFile.getOriginalFilename();
-        String storeFileName = createStoreFileName(originalFilename);
-        multipartFile.transferTo(new File(getFullPath(storeFileName)));
+        String uniqueURL = createStoreFileName(originalFilename);
+        multipartFile.transferTo(new File(getFullPath(uniqueURL)));
 
-        return new UploadFile(originalFilename, storeFileName);
+        return new UploadFile(originalFilename, uniqueURL);
 
     }
 
