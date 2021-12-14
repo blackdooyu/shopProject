@@ -25,7 +25,7 @@ public class ItemService {
         Member findMember = memberRepository.findOne(memberId);
         item.setMember(findMember);
         item.setLocalDateTime(LocalDateTime.now());
-        item.setSalesQuantity(0L);
+        item.setSalesQuantity(0);
         itemRepository.save(item);
     }
 
@@ -47,6 +47,14 @@ public class ItemService {
 
     public List<Item> findList(String sort) {
         return itemRepository.findList(sort);
+    }
+
+    public Item itemView(Long id) {
+        List<Item> itemView = itemRepository.findItemView(id);
+        if (itemView.size() != 1) {
+            return null;
+        }
+        return itemView.get(0);
     }
 
 

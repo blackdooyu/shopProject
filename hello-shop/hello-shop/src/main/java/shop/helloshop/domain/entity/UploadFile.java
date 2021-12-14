@@ -17,6 +17,9 @@ public class UploadFile {
         this.uniqueURL = uniqueURL;
     }
 
+    public UploadFile() {
+    }
+
     @Id @GeneratedValue
     @Column(name = "upload_file_id")
     private Long id;

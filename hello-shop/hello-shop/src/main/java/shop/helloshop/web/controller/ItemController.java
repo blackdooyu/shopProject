@@ -18,6 +18,7 @@ import shop.helloshop.domain.service.MemberService;
 import shop.helloshop.web.FileChange;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.ItemForm;
+import shop.helloshop.web.dto.ItemViewForm;
 import shop.helloshop.web.dto.MemberSessionDto;
 
 import javax.servlet.http.HttpServletResponse;
@@ -65,7 +66,7 @@ public class ItemController {
 
     @PostMapping("/item/add/{item}")
     public String itemAdd(@Validated @ModelAttribute("form") ItemForm itemForm, BindingResult bindingResult, @PathVariable("item") String selectItem,
-                          @Login MemberSessionDto memberSession) throws IOException {
+                          @Login MemberSessionDto memberSession,RedirectAttributes redirectAttributes) throws IOException {
 
         itemForm.setSelect(selectItem);
 
@@ -84,7 +85,25 @@ public class ItemController {
 
         itemService.save(item,memberSession.getId());
 
-        return "redirect:/";
+        redirectAttributes.addAttribute("itemId", item.getId());
+
+        return "redirect:/item/view/{itemId}";
+    }
+
+    @GetMapping("/item/view/{itemId}")
+    public String itemView(@PathVariable Long itemId,Model model,@Login MemberSessionDto sessionDto) {
+        Item item = itemService.itemView(itemId);
+
+        if (item == null) {
+            return "redirect:/";
+        }
+
+        ItemViewForm itemView = ItemViewForm.createViewForm(item.getName(), item.getPrice(), item.getQuantity(), item.getSalesQuantity(), item.getUploadFiles());
+        model.addAttribute("item", itemView);
+        model.addAttribute("member", sessionDto);
+
+        return "/item/itemView";
+
     }
 
     private Item createItem(ItemForm itemForm) {

@@ -30,7 +30,7 @@ public abstract class Item {
 
     private LocalDateTime localDateTime;
 
-    private Long salesQuantity;
+    private int salesQuantity;
 
     @OneToMany(mappedBy = "item",cascade = CascadeType.ALL )
     private List<UploadFile> uploadFiles = new ArrayList<>();
