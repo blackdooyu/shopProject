@@ -20,8 +20,8 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
                     <div class="col-md-6">
-                        <img class="card-img-top mb-5 mb-md-0" th:each="imageFile : *{imgFiles}"
-                             th:src="|/D:/shopFile/${imageFile}|"  width="600" height="700"/></div>
+                        <img class="card-img-top mb-5 mb-md-0" th:each="imageFile :*{imgFiles}"
+                             th:src="|/img/${imageFile}|"  width="600" height="700"/></div>
                     <div class="col-md-6">
                         <div class="small mb-1">SKU: BST-498</div>
                         <h1 class="display-5 fw-bolder" th:text="*{name}">Shop item template</h1>

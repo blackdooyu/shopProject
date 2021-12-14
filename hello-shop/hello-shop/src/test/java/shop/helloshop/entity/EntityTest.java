@@ -156,7 +156,7 @@ public class EntityTest {
         item.setPrice(500);
         item.setName("상품1");
         item.setQuantity(15);
-        item.setSalesQuantity(0L);
+        item.setSalesQuantity(0);
         return item;
     }
 

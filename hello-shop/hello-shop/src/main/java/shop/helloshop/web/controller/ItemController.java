@@ -3,6 +3,10 @@ package shop.helloshop.web.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +27,7 @@ import shop.helloshop.web.dto.MemberSessionDto;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Controller
@@ -92,19 +97,32 @@ public class ItemController {
 
     @GetMapping("/item/view/{itemId}")
     public String itemView(@PathVariable Long itemId,Model model,@Login MemberSessionDto sessionDto) {
+
         Item item = itemService.itemView(itemId);
 
         if (item == null) {
             return "redirect:/";
         }
 
+        if (sessionDto != null) {
+            model.addAttribute("member", sessionDto);
+        }
+
         ItemViewForm itemView = ItemViewForm.createViewForm(item.getName(), item.getPrice(), item.getQuantity(), item.getSalesQuantity(), item.getUploadFiles());
         model.addAttribute("item", itemView);
-        model.addAttribute("member", sessionDto);
+
 
         return "/item/itemView";
 
     }
+
+    @ResponseBody
+    @GetMapping("/img/{filename}")
+    public Resource viewImg(@PathVariable String filename) throws MalformedURLException {
+      return new UrlResource("file:" + fileChange.getFullPath(filename));
+    }
+
+
 
     private Item createItem(ItemForm itemForm) {
 

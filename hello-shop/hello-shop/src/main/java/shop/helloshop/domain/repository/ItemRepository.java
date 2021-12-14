@@ -43,7 +43,7 @@ public class ItemRepository {
     }
 
     public List<Item> findItemView(Long id) {
-      return em.createQuery("select DISTINCT i from Item i join fetch i.uploadFiles where i.id = :id",Item.class)
+        return em.createQuery("select DISTINCT i from Item i join fetch i.uploadFiles where i.id = :id",Item.class)
                 .setParameter("id",id)
                 .getResultList();
     }

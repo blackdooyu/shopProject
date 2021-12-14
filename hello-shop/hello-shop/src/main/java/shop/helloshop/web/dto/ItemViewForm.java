@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 import shop.helloshop.domain.entity.UploadFile;
+import shop.helloshop.domain.entity.items.ItemSize;
+import shop.helloshop.domain.entity.items.PhoneColor;
 
 import java.util.ArrayList;
 import java.util.List;
