@@ -1,11 +1,13 @@
 package shop.helloshop.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
-import shop.helloshop.domain.entity.UploadFile;
+import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.Item;
+import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.domain.repository.ItemRepository;
 import shop.helloshop.domain.repository.MemberRepository;
 
@@ -49,13 +51,14 @@ public class ItemService {
         return itemRepository.findList(sort);
     }
 
-    public Item itemView(Long id) {
-        List<Item> itemView = itemRepository.findItemView(id);
-        if (itemView.size() != 1) {
-            return null;
-        }
-        return itemView.get(0);
+    public Phone phoneView(Long id) {
+        return itemRepository.findViewPhone(id);
     }
+
+    public Clothes clothesView(Long id) {
+        return itemRepository.findViewClothes(id);
+    }
+
 
 
 }

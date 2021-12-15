@@ -1,12 +1,9 @@
 package shop.helloshop.web.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +22,6 @@ import shop.helloshop.web.dto.ItemForm;
 import shop.helloshop.web.dto.ItemViewForm;
 import shop.helloshop.web.dto.MemberSessionDto;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -98,9 +94,15 @@ public class ItemController {
     @GetMapping("/item/view/{itemId}")
     public String itemView(@PathVariable Long itemId,Model model,@Login MemberSessionDto sessionDto) {
 
-        Item item = itemService.itemView(itemId);
 
-        if (item == null) {
+        if (itemId == null) {
+            return "redirect:/";
+        }
+
+        ItemViewForm viewForm = createViewForm(itemId);
+
+
+        if (viewForm == null) {
             return "redirect:/";
         }
 
@@ -108,13 +110,12 @@ public class ItemController {
             model.addAttribute("member", sessionDto);
         }
 
-        ItemViewForm itemView = ItemViewForm.createViewForm(item.getName(), item.getPrice(), item.getQuantity(), item.getSalesQuantity(), item.getUploadFiles());
-        model.addAttribute("item", itemView);
-
+        model.addAttribute("item", viewForm);
 
         return "/item/itemView";
 
     }
+
 
     @ResponseBody
     @GetMapping("/img/{filename}")
@@ -141,6 +142,27 @@ public class ItemController {
             phone.setPrice(itemForm.getPrice());
             return phone;
         }
+        return null;
+    }
+
+    private ItemViewForm createViewForm(Long itemId) {
+
+            Phone phone = itemService.phoneView(itemId);
+
+            if(phone != null) {
+                return ItemViewForm.createPhoneForm(phone.getName(), phone.getPrice(),
+                        phone.getQuantity(), phone.getSalesQuantity(), phone.getPhoneColor(), phone.getUploadFiles());
+            }
+
+
+            Clothes clothes = itemService.clothesView(itemId);
+
+            if (clothes != null) {
+                return ItemViewForm.createClothesForm(clothes.getName(), clothes.getPrice(),
+                        clothes.getQuantity(), clothes.getSalesQuantity(), clothes.getItemSize(), clothes.getUploadFiles());
+
+        }
+
         return null;
     }
 }

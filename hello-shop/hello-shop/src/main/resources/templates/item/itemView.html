@@ -15,7 +15,7 @@
     <div th:replace="/fragments/nav.html :: nav"></div>
 
         <!-- Product section-->
-    <form action="item.html" th:action th:object="${item}" method="post">
+    <form action="item.html" th:if="${item.phoneColor != null}" th:action th:object="${item}" method="post">
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
@@ -23,7 +23,38 @@
                         <img class="card-img-top mb-5 mb-md-0" th:each="imageFile :*{imgFiles}"
                              th:src="|/img/${imageFile}|"  width="600" height="700"/></div>
                     <div class="col-md-6">
-                        <div class="small mb-1">SKU: BST-498</div>
+                        <div class="small mb-1" th:text="'색상 : ' + *{phoneColor}">SKU: BST-498</div>
+                        <div class="small mb-1" th:text="'남은수량 : ' + *{quantity}">SKU: BST-498</div>
+                        <div class="small mb-1" th:text="'판매수량 : ' + *{salesQuantity}">SKU: BST-498</div>
+                        <h1 class="display-5 fw-bolder" th:text="*{name}">Shop item template</h1>
+                        <div class="fs-5 mb-5">
+                            <span th:text="*{price}+'₩'">$40.00</span>
+                        </div>
+
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </form>
+
+    <form action="item.html" th:if="${item.itemSize != null}" th:action th:object="${item}" method="post">
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6">
+                        <img class="card-img-top mb-5 mb-md-0" th:each="imageFile :*{imgFiles}"
+                             th:src="|/img/${imageFile}|"  width="600" height="700"/></div>
+                    <div class="col-md-6">
+                        <div class="small mb-1" th:text="'SIZE : ' + *{itemSize}">SKU: BST-498</div>
+                        <div class="small mb-1" th:text="'남은수량 : ' + *{quantity}">SKU: BST-498</div>
+                        <div class="small mb-1" th:text="'판매수량 : ' + *{salesQuantity}">SKU: BST-498</div>
                         <h1 class="display-5 fw-bolder" th:text="*{name}">Shop item template</h1>
                         <div class="fs-5 mb-5">
                             <span th:text="*{price}+'₩'">$40.00</span>

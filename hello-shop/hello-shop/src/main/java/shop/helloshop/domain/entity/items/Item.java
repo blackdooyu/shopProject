@@ -14,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@DiscriminatorColumn(name = "type",discriminatorType = DiscriminatorType.STRING)
 @Getter @Setter
 public abstract class Item {
 

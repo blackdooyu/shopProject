@@ -2,8 +2,9 @@ package shop.helloshop.domain.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import shop.helloshop.domain.entity.UploadFile;
+import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.Item;
+import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.web.dto.FindSort;
 
 import javax.persistence.EntityManager;
@@ -42,10 +43,13 @@ public class ItemRepository {
                 .getResultList();
     }
 
-    public List<Item> findItemView(Long id) {
-        return em.createQuery("select DISTINCT i from Item i join fetch i.uploadFiles where i.id = :id",Item.class)
-                .setParameter("id",id)
-                .getResultList();
+    public Phone findViewPhone(Long id) {
+       return em.find(Phone.class, id);
     }
+
+    public Clothes findViewClothes(Long id) {
+        return em.find(Clothes.class,id);
+    }
+
 
 }
