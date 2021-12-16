@@ -33,13 +33,19 @@ public class ItemRepository {
 
         if (FindSort.Item_Popularity_List.equals(sort)) { // 인기순으로 정렬
             return em.createQuery("select i from Item i order by i.salesQuantity desc", Item.class)
+                    .setFirstResult(0)
+                    .setMaxResults(8)
                     .getResultList();
 
         } else if (FindSort.Item_Recent_List.equals(sort)) { // 최신순으로 정렬
             return em.createQuery("select i from Item i order by i.localDateTime desc",Item.class)
+                    .setFirstResult(0)
+                    .setMaxResults(8)
                     .getResultList();
         }
         return em.createQuery("select i from Item i", Item.class)//전체
+                .setFirstResult(0)
+                .setMaxResults(8)
                 .getResultList();
     }
 

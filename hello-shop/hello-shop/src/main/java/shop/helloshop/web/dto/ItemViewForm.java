@@ -15,6 +15,8 @@ import java.util.List;
 @Getter @Setter
 public class ItemViewForm {
 
+    private Long id;
+
     private String name;
 
     private int price;
@@ -26,6 +28,8 @@ public class ItemViewForm {
     private ItemSize itemSize;
 
     private PhoneColor phoneColor;
+
+    private String img;
 
     private List<String> imgFiles = new ArrayList<>();
 
@@ -59,5 +63,15 @@ public class ItemViewForm {
         }
         return itemViewForm;
 
+    }
+
+    public static ItemViewForm createViewHome(Long id,String name,int price,List<UploadFile> imgFiles) {
+        ItemViewForm itemViewForm = new ItemViewForm();
+        itemViewForm.setId(id);
+        itemViewForm.setName(name);
+        itemViewForm.setPrice(price);
+        itemViewForm.setImg(imgFiles.get(0).getUniqueURL());
+
+        return itemViewForm;
     }
 }

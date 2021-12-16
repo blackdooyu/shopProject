@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import shop.helloshop.domain.entity.Address;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.MemberGrade;
+import shop.helloshop.domain.entity.items.Item;
+import shop.helloshop.domain.service.ItemService;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.*;
 import shop.helloshop.web.exception.MemberException;
@@ -20,6 +22,8 @@ import shop.helloshop.domain.service.MemberService;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -27,6 +31,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     private final MemberService memberService;
+    private final ItemService itemService;
 
     @PostConstruct
     public void initMethod() {
@@ -48,6 +53,14 @@ public class LoginController {
             return "home";
         }
 
+        List<Item> list = itemService.findList(FindSort.Item_Popularity_List);
+        List<ItemViewForm> viewForm =new ArrayList<>();
+
+        for (Item view : list){
+            viewForm.add(ItemViewForm.createViewHome(view.getId(),view.getName(),view.getPrice(),view.getUploadFiles()));
+        }
+
+        model.addAttribute("items", viewForm);
         model.addAttribute("member", sessionDto);
 
         return "home";
