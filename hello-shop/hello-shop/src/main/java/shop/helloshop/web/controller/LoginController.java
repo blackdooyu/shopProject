@@ -49,12 +49,10 @@ public class LoginController {
     public String homepage(@Login MemberSessionDto sessionDto, Model model) {
 
 
-        if (sessionDto == null) {
-            return "home";
-        }
-
-        List<Item> list = itemService.findList(FindSort.Item_Popularity_List);
+        List<Item> list = itemService.findHomeList();
         List<ItemViewForm> viewForm =new ArrayList<>();
+
+        log.info("{}",list.size());
 
         for (Item view : list){
             viewForm.add(ItemViewForm.createViewHome(view.getId(),view.getName(),view.getPrice(),view.getUploadFiles()));

@@ -99,7 +99,7 @@ class ItemServiceTest {
         em.clear();
 
         //then
-      assertEquals(itemService.findList("all").size(),3);
+      assertEquals(itemService.findList("all",1).size(),3);
 
     }
 

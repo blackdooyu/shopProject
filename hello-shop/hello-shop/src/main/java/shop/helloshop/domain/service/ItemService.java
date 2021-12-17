@@ -47,8 +47,16 @@ public class ItemService {
        return itemRepository.findOne(id);
     }
 
-    public List<Item> findList(String sort) {
-        return itemRepository.findList(sort);
+    public List<Item> findHomeList() {
+        return itemRepository.homeList();
+    }
+
+    public List<Item> findList(String sort,int page) {
+        return itemRepository.findList(sort,page);
+    }
+
+    public Long findCount() {
+        return itemRepository.findItemCount();
     }
 
     public Phone phoneView(Long id) {

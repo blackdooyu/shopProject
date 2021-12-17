@@ -34,7 +34,7 @@ public abstract class Item {
     private int salesQuantity;
 
     @OneToMany(mappedBy = "item",cascade = CascadeType.ALL )
-    @BatchSize(size = 10)
+    @BatchSize(size = 16)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

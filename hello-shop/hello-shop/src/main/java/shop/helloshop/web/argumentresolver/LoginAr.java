@@ -33,7 +33,6 @@ public class LoginAr implements HandlerMethodArgumentResolver {
             return null;
         }
 
-
         Object memberSessionDto = session.getAttribute(SessionKey.LOGIN_MEMBER);
 
         return memberSessionDto;

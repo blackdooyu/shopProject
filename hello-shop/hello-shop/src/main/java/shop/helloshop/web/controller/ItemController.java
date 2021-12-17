@@ -15,15 +15,17 @@ import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.domain.service.ItemService;
-import shop.helloshop.domain.service.MemberService;
 import shop.helloshop.web.FileChange;
 import shop.helloshop.web.argumentresolver.Login;
+import shop.helloshop.web.dto.FindSort;
 import shop.helloshop.web.dto.ItemForm;
 import shop.helloshop.web.dto.ItemViewForm;
 import shop.helloshop.web.dto.MemberSessionDto;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -32,7 +34,6 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
-    private final MemberService memberService;
     private final FileChange fileChange;
 
 
@@ -116,14 +117,75 @@ public class ItemController {
 
     }
 
+    @GetMapping("/item/list/{page}")
+    public String pageView(@PathVariable Integer page , @RequestParam String sort,
+                           Model model , @Login MemberSessionDto memberSessionDto) {
+
+        if (page == null || sort == null || (!sort.equals("P") && !sort.equals("R"))) {
+            return "redirect:/";
+        }
+
+        String selectSort = null;
+
+        if (sort.equals("P")){
+            selectSort = FindSort.Item_Popularity_List;
+        }
+
+        if (sort.equals("R")) {
+            selectSort = FindSort.Item_Recent_List;
+        }
+
+        List<Item> itemList = itemService.findList(selectSort, page);
+
+        if (itemList == null) {
+            return "redirect:/";
+        }
+
+        List<ItemViewForm> itemViews = new ArrayList<>();
+
+        for (Item item : itemList) {
+            ItemViewForm view = ItemViewForm.createViewHome(item.getId(), item.getName(), item.getPrice(), item.getUploadFiles());
+            itemViews.add(view);
+        }
+
+        int[] count = findCount();
+
+        model.addAttribute("sort", sort);
+        model.addAttribute("count", count);
+        model.addAttribute("items", itemViews);
+        model.addAttribute("member", memberSessionDto);
+
+        return "/item/itemList";
+    }
+
+
 
     @ResponseBody
     @GetMapping("/img/{filename}")
     public Resource viewImg(@PathVariable String filename) throws MalformedURLException {
-      return new UrlResource("file:" + fileChange.getFullPath(filename));
+
+        return new UrlResource("file:" + fileChange.getFullPath(filename));
     }
 
 
+
+    private int[] findCount() {
+
+        int count = itemService.findCount().intValue();
+        int pageNumber = count/10;
+
+        if(count % 10 != 0){
+            pageNumber += 1;
+        }
+
+        int[] findArr =new int[pageNumber];
+
+        for(int i = 0 ; i < pageNumber ; i++){
+            findArr[i] = i+1;
+        }
+
+        return findArr;
+    }
 
     private Item createItem(ItemForm itemForm) {
 
