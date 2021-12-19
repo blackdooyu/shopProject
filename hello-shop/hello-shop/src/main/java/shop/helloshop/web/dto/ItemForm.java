@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 import shop.helloshop.domain.entity.UploadFile;
+import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.ItemSize;
+import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.domain.entity.items.PhoneColor;
 
 import javax.validation.constraints.NotBlank;
@@ -17,6 +19,8 @@ import java.util.List;
 public class ItemForm {
 
     private String select;
+
+    private Long id;
 
     @NotBlank(message = "필수 값 입니다")
     private String name;
@@ -33,6 +37,23 @@ public class ItemForm {
 
     private List<MultipartFile> multipartFileList = new ArrayList<>();
 
+    public static ItemForm phoneUpdateForm(Phone phone) {
+        ItemForm itemForm = new ItemForm();
+        itemForm.setName(phone.getName());
+        itemForm.setPrice(phone.getPrice());
+        itemForm.setQuantity(phone.getQuantity());
+        itemForm.setPhoneColor(phone.getPhoneColor());
+        return itemForm;
+    }
+    public static ItemForm clothesUpdateForm(Clothes clothes) {
+        ItemForm itemForm = new ItemForm();
+        itemForm.setName(clothes.getName());
+        itemForm.setPrice(clothes.getPrice());
+        itemForm.setQuantity(clothes.getQuantity());
+        itemForm.setItemSize(clothes.getItemSize());
+        return itemForm;
+    }
+
+    }
 
 
-}

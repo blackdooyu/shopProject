@@ -10,11 +10,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.UploadFile;
 import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.domain.service.ItemService;
+import shop.helloshop.domain.service.MemberService;
 import shop.helloshop.web.FileChange;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.FindSort;
@@ -34,6 +36,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final MemberService memberService;
     private final FileChange fileChange;
 
 
@@ -92,6 +95,31 @@ public class ItemController {
         return "redirect:/item/view/{itemId}";
     }
 
+    @GetMapping("/item/update/{itemId}")
+    public String updateForm(@PathVariable Long itemId,Model model) {
+
+        ItemForm updateForm = createUpdateForm(itemId);
+        model.addAttribute("form",updateForm);
+
+        return "/item/updateItem";
+    }
+
+    @PostMapping("/item/update/{itemId}")
+    public String updateItem(@Validated @ModelAttribute("form") ItemForm itemForm,BindingResult bindingResult
+            ,@PathVariable Long itemId,RedirectAttributes redirectAttributes) throws IOException {
+
+        if (bindingResult.hasErrors()){
+            return "/item/updateItem";
+        }
+
+        List<UploadFile> uploadFiles = fileChange.storeFiles(itemForm.getMultipartFileList());
+
+        itemUpdateMethod(itemForm,itemId,uploadFiles);
+
+        redirectAttributes.addAttribute("itemId", itemId);
+        return "redirect:/item/view/{itemId}";
+    }
+
     @GetMapping("/item/view/{itemId}")
     public String itemView(@PathVariable Long itemId,Model model,@Login MemberSessionDto sessionDto) {
 
@@ -102,12 +130,15 @@ public class ItemController {
 
         ItemViewForm viewForm = createViewForm(itemId);
 
-
         if (viewForm == null) {
             return "redirect:/";
         }
 
         if (sessionDto != null) {
+            Item findItem = itemService.findOne(itemId);
+            if (findItem.getMember().getId() == sessionDto.getId()){
+                model.addAttribute("check", itemId);
+            }
             model.addAttribute("member", sessionDto);
         }
 
@@ -118,7 +149,7 @@ public class ItemController {
     }
 
     @GetMapping("/item/list/{page}")
-    public String pageView(@PathVariable Integer page , @RequestParam String sort,
+    public String pageView(@PathVariable Integer page , @RequestParam(defaultValue = "P") String sort,
                            Model model , @Login MemberSessionDto memberSessionDto) {
 
         if (page == null || sort == null || (!sort.equals("P") && !sort.equals("R"))) {
@@ -168,6 +199,29 @@ public class ItemController {
     }
 
 
+
+    private void itemUpdateMethod(ItemForm itemForm,Long itemId ,List<UploadFile> uploadFiles) {
+
+        if (itemForm.getItemSize() == null) {
+            Phone phone = new Phone();
+            phone.setUploadFiles(uploadFiles);
+            phone.setQuantity(itemForm.getQuantity());
+            phone.setPrice(itemForm.getPrice());
+            phone.setName(itemForm.getName());
+            phone.setPhoneColor(itemForm.getPhoneColor());
+            itemService.updatePhone(itemId,phone);
+
+        }
+
+        Clothes clothes = new Clothes();
+        clothes.setUploadFiles(uploadFiles);
+        clothes.setQuantity(itemForm.getQuantity());
+        clothes.setPrice(itemForm.getPrice());
+        clothes.setName(itemForm.getName());
+        clothes.setItemSize(itemForm.getItemSize());
+        itemService.updateClothes(itemId,clothes);
+
+    }
 
     private int[] findCount() {
 
@@ -226,5 +280,21 @@ public class ItemController {
         }
 
         return null;
+    }
+
+    private ItemForm createUpdateForm(Long itemId) {
+
+        Phone phone = itemService.phoneView(itemId);
+        if(phone != null){
+            return ItemForm.phoneUpdateForm(phone);
+        }
+
+        Clothes clothes = itemService.clothesView(itemId);
+        if (clothes != null) {
+            return ItemForm.clothesUpdateForm(clothes);
+        }
+
+        return null;
+
     }
 }

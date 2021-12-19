@@ -33,7 +33,7 @@ public abstract class Item {
 
     private int salesQuantity;
 
-    @OneToMany(mappedBy = "item",cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "item",cascade = CascadeType.ALL,orphanRemoval = true)
     @BatchSize(size = 16)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 

@@ -33,6 +33,8 @@ public class ItemViewForm {
 
     private List<String> imgFiles = new ArrayList<>();
 
+    private List<UploadFile> uploadFiles = new ArrayList<>();
+
 
 
     public static ItemViewForm createPhoneForm(String name, int price, int quantity , int salesQuantity,PhoneColor phoneColor ,List<UploadFile> uploadFiles) {
@@ -42,6 +44,7 @@ public class ItemViewForm {
         itemViewForm.setQuantity(quantity);
         itemViewForm.setSalesQuantity(salesQuantity);
         itemViewForm.setPhoneColor(phoneColor);
+        itemViewForm.setUploadFiles(uploadFiles);
 
         for (UploadFile uploadFile : uploadFiles) {
             itemViewForm.getImgFiles().add(uploadFile.getUniqueURL());
@@ -57,6 +60,7 @@ public class ItemViewForm {
         itemViewForm.setQuantity(quantity);
         itemViewForm.setSalesQuantity(salesQuantity);
         itemViewForm.setItemSize(itemSize);
+        itemViewForm.setUploadFiles(uploadFiles);
 
         for (UploadFile uploadFile : uploadFiles) {
             itemViewForm.getImgFiles().add(uploadFile.getUniqueURL());

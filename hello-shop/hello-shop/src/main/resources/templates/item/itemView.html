@@ -37,6 +37,14 @@
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:if="${check != null}" th:href="@{/item/update/{id}(id=${check})}">수정</a></div>
+                            </button>
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:if="${check != null}" th:href="@{/item/update/{id}(id=${check})}">삭제</a></div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -65,6 +73,16 @@
                             <button class="btn btn-outline-dark flex-shrink-0" type="button">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
+                            </button>
+
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:if="${check != null}" th:href="@{/item/update/{id}(id=${check})}">수정</a></div>
+                            </button>
+
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:if="${check != null}" th:href="@{/item/update/{id}(id=${check})}">삭제</a></div>
                             </button>
                         </div>
                     </div>

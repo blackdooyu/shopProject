@@ -49,6 +49,7 @@ public class MemberService {
     }
 
 
+
     /*
    Email 을 기준으로 List<Member> 를 가지고와서 List 가 비어있을경우 null 반환
    비어있지 않을경우 loginForm 에 있는 password 와 비교해서 맞을경우 세션에 저장해놓을 정보 생성

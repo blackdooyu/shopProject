@@ -5,11 +5,14 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
+import shop.helloshop.domain.entity.UploadFile;
 import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.entity.items.Phone;
+import shop.helloshop.domain.entity.items.PhoneColor;
 import shop.helloshop.domain.repository.ItemRepository;
 import shop.helloshop.domain.repository.MemberRepository;
+import shop.helloshop.web.dto.ItemViewForm;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +39,40 @@ public class ItemService {
     public void update(Long itemId,String name,int price,int quantity) {
         Item findItem = itemRepository.findOne(itemId);
         findItem.update(name,price,quantity);
+    }
+
+    @Transactional
+    public void updatePhone(Long itemId, Phone phone) {
+        Phone viewPhone = itemRepository.findViewPhone(itemId);
+        viewPhone.setName(phone.getName());
+        viewPhone.setPrice(phone.getPrice());
+        viewPhone.setPhoneColor(phone.getPhoneColor());
+        viewPhone.setQuantity(phone.getQuantity());
+
+        viewPhone.getUploadFiles().remove(0);
+        List<UploadFile> uploadFiles = phone.getUploadFiles();
+
+        for (UploadFile uploadFile : uploadFiles) {
+            viewPhone.addUploadFile(uploadFile);
+        }
+
+    }
+
+    @Transactional
+    public void updateClothes(Long itemId, Clothes clothes) {
+        Clothes viewClothes = itemRepository.findViewClothes(itemId);
+        viewClothes.setName(clothes.getName());
+        viewClothes.setPrice(clothes.getPrice());
+        viewClothes.setItemSize(clothes.getItemSize());
+
+
+        viewClothes.setQuantity(clothes.getQuantity());
+        viewClothes.getUploadFiles().remove(0);
+
+        List<UploadFile> uploadFiles = clothes.getUploadFiles();
+        for (UploadFile uploadFile : uploadFiles) {
+            viewClothes.addUploadFile(uploadFile);
+        }
     }
 
     @Transactional
