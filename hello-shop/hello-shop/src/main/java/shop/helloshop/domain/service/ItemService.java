@@ -42,7 +42,7 @@ public class ItemService {
     }
 
     @Transactional
-    public void updatePhone(Long itemId, Phone phone) {
+    public void updatePhone(Long itemId, Phone phone,List<UploadFile> updateUploadFiles) {
         Phone viewPhone = itemRepository.findViewPhone(itemId);
         viewPhone.setName(phone.getName());
         viewPhone.setPrice(phone.getPrice());
@@ -50,16 +50,15 @@ public class ItemService {
         viewPhone.setQuantity(phone.getQuantity());
 
         viewPhone.getUploadFiles().remove(0);
-        List<UploadFile> uploadFiles = phone.getUploadFiles();
 
-        for (UploadFile uploadFile : uploadFiles) {
+        for (UploadFile uploadFile : updateUploadFiles) {
             viewPhone.addUploadFile(uploadFile);
         }
 
     }
 
     @Transactional
-    public void updateClothes(Long itemId, Clothes clothes) {
+    public void updateClothes(Long itemId, Clothes clothes,List<UploadFile> updateUploadFiles) {
         Clothes viewClothes = itemRepository.findViewClothes(itemId);
         viewClothes.setName(clothes.getName());
         viewClothes.setPrice(clothes.getPrice());
@@ -69,8 +68,7 @@ public class ItemService {
         viewClothes.setQuantity(clothes.getQuantity());
         viewClothes.getUploadFiles().remove(0);
 
-        List<UploadFile> uploadFiles = clothes.getUploadFiles();
-        for (UploadFile uploadFile : uploadFiles) {
+        for (UploadFile uploadFile : updateUploadFiles) {
             viewClothes.addUploadFile(uploadFile);
         }
     }

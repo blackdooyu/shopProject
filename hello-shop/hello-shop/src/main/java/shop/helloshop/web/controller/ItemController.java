@@ -120,8 +120,15 @@ public class ItemController {
         return "redirect:/item/view/{itemId}";
     }
 
+    @GetMapping("item/delete/{itemId}")
+    public String deleteItem(@PathVariable Long itemId) {
+        itemService.remove(itemId);
+        return "redirect:/";
+    }
+
+
     @GetMapping("/item/view/{itemId}")
-    public String itemView(@PathVariable Long itemId,Model model,@Login MemberSessionDto sessionDto) {
+    public String itemView(@PathVariable Long itemId, Model model, @Login MemberSessionDto sessionDto) {
 
 
         if (itemId == null) {
@@ -136,7 +143,7 @@ public class ItemController {
 
         if (sessionDto != null) {
             Item findItem = itemService.findOne(itemId);
-            if (findItem.getMember().getId() == sessionDto.getId()){
+            if (findItem.getMember().getId() == sessionDto.getId()) {
                 model.addAttribute("check", itemId);
             }
             model.addAttribute("member", sessionDto);
@@ -202,33 +209,31 @@ public class ItemController {
 
     private void itemUpdateMethod(ItemForm itemForm,Long itemId ,List<UploadFile> uploadFiles) {
 
-        if (itemForm.getItemSize() == null) {
-            Phone phone = new Phone();
-            phone.setUploadFiles(uploadFiles);
+        Phone phone = itemService.phoneView(itemId);
+        if (phone != null) {
             phone.setQuantity(itemForm.getQuantity());
             phone.setPrice(itemForm.getPrice());
             phone.setName(itemForm.getName());
             phone.setPhoneColor(itemForm.getPhoneColor());
-            itemService.updatePhone(itemId,phone);
-
+            itemService.updatePhone(itemId,phone,uploadFiles);
+            return;
         }
 
         Clothes clothes = new Clothes();
-        clothes.setUploadFiles(uploadFiles);
         clothes.setQuantity(itemForm.getQuantity());
         clothes.setPrice(itemForm.getPrice());
         clothes.setName(itemForm.getName());
         clothes.setItemSize(itemForm.getItemSize());
-        itemService.updateClothes(itemId,clothes);
+        itemService.updateClothes(itemId,clothes,uploadFiles);
 
     }
 
     private int[] findCount() {
 
         int count = itemService.findCount().intValue();
-        int pageNumber = count/10;
+        int pageNumber = count/16;
 
-        if(count % 10 != 0){
+        if(count % 16 != 0){
             pageNumber += 1;
         }
 
