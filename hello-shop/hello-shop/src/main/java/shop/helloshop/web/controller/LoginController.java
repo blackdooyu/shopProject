@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import shop.helloshop.domain.entity.Address;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.MemberGrade;
@@ -44,6 +45,7 @@ public class LoginController {
 
         memberService.save(member);
     }
+
 
     @GetMapping("/")
     public String homepage(@Login MemberSessionDto sessionDto, Model model) {

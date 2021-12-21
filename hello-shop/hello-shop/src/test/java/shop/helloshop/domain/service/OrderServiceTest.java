@@ -1,6 +1,5 @@
 package shop.helloshop.domain.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +8,7 @@ import shop.helloshop.domain.entity.DeliveryStatus;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.entity.items.Room;
-import shop.helloshop.web.dto.ItemDto;
+import shop.helloshop.web.dto.OrderItemDto;
 
 import javax.persistence.EntityManager;
 
@@ -41,15 +40,15 @@ class OrderServiceTest {
         memberService.save(member);
         itemService.save(item,member.getId());
 
-        ItemDto itemDto = new ItemDto();
-        itemDto.setId(item.getId());
-        itemDto.setCount(5);
+        OrderItemDto orderItemDto = new OrderItemDto();
+        orderItemDto.setId(item.getId());
+        orderItemDto.setCount(5);
 
         //when
-        List<ItemDto> itemDtoList = new ArrayList<>();
-        itemDtoList.add(itemDto);
+        List<OrderItemDto> orderItemDtoList = new ArrayList<>();
+        orderItemDtoList.add(orderItemDto);
 
-        Long orderId = orderService.order(member.getId(), itemDtoList);
+        Long orderId = orderService.order(member.getId(), orderItemDtoList);
 
         em.flush();
         em.clear();
@@ -75,14 +74,14 @@ class OrderServiceTest {
         memberService.save(member);
         itemService.save(item,member.getId());
 
-        ItemDto itemDto = new ItemDto();
-        itemDto.setId(item.getId());
-        itemDto.setCount(5);
+        OrderItemDto orderItemDto = new OrderItemDto();
+        orderItemDto.setId(item.getId());
+        orderItemDto.setCount(5);
 
         //when
-        List<ItemDto> itemDtoList = new ArrayList<>();
-        itemDtoList.add(itemDto);
-        Long orderId = orderService.order(member.getId(), itemDtoList);
+        List<OrderItemDto> orderItemDtoList = new ArrayList<>();
+        orderItemDtoList.add(orderItemDto);
+        Long orderId = orderService.order(member.getId(), orderItemDtoList);
         em.flush();
         em.clear();
         orderService.orderCancel(orderId);

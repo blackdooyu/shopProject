@@ -271,7 +271,7 @@ public class ItemController {
             Phone phone = itemService.phoneView(itemId);
 
             if(phone != null) {
-                return ItemViewForm.createPhoneForm(phone.getName(), phone.getPrice(),
+                return ItemViewForm.createPhoneForm(phone.getId(), phone.getName(), phone.getPrice(),
                         phone.getQuantity(), phone.getSalesQuantity(), phone.getPhoneColor(), phone.getUploadFiles());
             }
 
@@ -279,7 +279,7 @@ public class ItemController {
             Clothes clothes = itemService.clothesView(itemId);
 
             if (clothes != null) {
-                return ItemViewForm.createClothesForm(clothes.getName(), clothes.getPrice(),
+                return ItemViewForm.createClothesForm(clothes.getId(),clothes.getName(), clothes.getPrice(),
                         clothes.getQuantity(), clothes.getSalesQuantity(), clothes.getItemSize(), clothes.getUploadFiles());
 
         }

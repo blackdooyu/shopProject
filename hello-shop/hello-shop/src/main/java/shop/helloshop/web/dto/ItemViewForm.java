@@ -37,8 +37,9 @@ public class ItemViewForm {
 
 
 
-    public static ItemViewForm createPhoneForm(String name, int price, int quantity , int salesQuantity,PhoneColor phoneColor ,List<UploadFile> uploadFiles) {
+    public static ItemViewForm createPhoneForm(Long id,String name, int price, int quantity , int salesQuantity,PhoneColor phoneColor ,List<UploadFile> uploadFiles) {
         ItemViewForm itemViewForm = new ItemViewForm();
+        itemViewForm.setId(id);
         itemViewForm.setName(name);
         itemViewForm.setPrice(price);
         itemViewForm.setQuantity(quantity);
@@ -53,8 +54,9 @@ public class ItemViewForm {
 
     }
 
-    public static ItemViewForm createClothesForm(String name, int price, int quantity , int salesQuantity,ItemSize itemSize ,List<UploadFile> uploadFiles) {
+    public static ItemViewForm createClothesForm(Long id,String name, int price, int quantity , int salesQuantity,ItemSize itemSize ,List<UploadFile> uploadFiles) {
         ItemViewForm itemViewForm = new ItemViewForm();
+        itemViewForm.setId(id);
         itemViewForm.setName(name);
         itemViewForm.setPrice(price);
         itemViewForm.setQuantity(quantity);

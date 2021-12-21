@@ -10,7 +10,7 @@ import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.repository.ItemRepository;
 import shop.helloshop.domain.repository.MemberRepository;
 import shop.helloshop.domain.repository.OrderRepository;
-import shop.helloshop.web.dto.ItemDto;
+import shop.helloshop.web.dto.OrderItemDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +25,13 @@ public class OrderService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public Long order(Long memberId, List<ItemDto> itemDto) {
+    public Long order(Long memberId, List<OrderItemDto> orderItemDto) {
 
         Member findMember = memberRepository.findOne(memberId);
         List<OrderItem> orderItems = new ArrayList<>();
 
         //OrderItem 생성
-        for (ItemDto items : itemDto) {
+        for (OrderItemDto items : orderItemDto) {
             Item findItem = itemRepository.findOne(items.getId());
             OrderItem orderItem = OrderItem.createOrderItem(findItem, items.getCount());
             orderItems.add(orderItem);

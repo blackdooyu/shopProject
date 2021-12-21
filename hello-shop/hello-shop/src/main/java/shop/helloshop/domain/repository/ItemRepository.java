@@ -29,6 +29,7 @@ public class ItemRepository {
        return em.find(Item.class,itemId);
     }
 
+
     public List<Item> homeList() {
 
             return em.createQuery("select i from Item i order by i.salesQuantity desc", Item.class)

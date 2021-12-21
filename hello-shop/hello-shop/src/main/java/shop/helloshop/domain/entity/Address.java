@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Setter @Getter
+@Getter
 @EqualsAndHashCode
 public class Address {
 
