@@ -30,6 +30,7 @@ public class Order {
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+
     //생성메서드로만 생성하기 위해 생성자 막기
     protected Order() {
 

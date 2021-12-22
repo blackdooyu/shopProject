@@ -22,6 +22,8 @@ public class OrderItem {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    private String name;
+
     private int orderPrice;
 
     private int count;
@@ -33,6 +35,7 @@ public class OrderItem {
     //생성 편의 메서드
     public static OrderItem createOrderItem(Item item,int count) {
         OrderItem orderItem = new OrderItem();
+        orderItem.setName(item.getName());
         orderItem.setCount(count);
         orderItem.setItem(item);
         int orderPrice = item.getTotalPrice(count);

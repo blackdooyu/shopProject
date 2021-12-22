@@ -10,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.UploadFile;
 import shop.helloshop.domain.entity.items.Clothes;
 import shop.helloshop.domain.entity.items.Item;
@@ -19,14 +18,12 @@ import shop.helloshop.domain.service.ItemService;
 import shop.helloshop.domain.service.MemberService;
 import shop.helloshop.web.FileChange;
 import shop.helloshop.web.argumentresolver.Login;
-import shop.helloshop.web.dto.FindSort;
-import shop.helloshop.web.dto.ItemForm;
-import shop.helloshop.web.dto.ItemViewForm;
-import shop.helloshop.web.dto.MemberSessionDto;
+import shop.helloshop.web.dto.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,11 +146,49 @@ public class ItemController {
             model.addAttribute("member", sessionDto);
         }
 
+
         model.addAttribute("item", viewForm);
 
         return "/item/itemView";
-
     }
+
+    @PostMapping("/item/view/{itemId}")
+    public String shopCartSession(HttpServletRequest request, RedirectAttributes redirectAttributes,
+                                  @PathVariable Long itemId, @RequestParam(defaultValue = "0") int count,
+                                  @Login MemberSessionDto memberSessionDto) {
+
+        redirectAttributes.addAttribute("id",itemId);
+
+        if(count == 0){
+            return "redirect:/item/view/{id}";
+        }
+
+        if (memberSessionDto == null){
+            return "redirect:/login";
+        }
+
+        ShopCartSession shopCartSession = new ShopCartSession();
+        shopCartSession.setId(itemId);
+        shopCartSession.setCount(count);
+
+        HttpSession session = request.getSession(false);
+        Object list = session.getAttribute(SessionKey.CART_SESSION);
+
+        if(list == null){
+            List<ShopCartSession> sessionList = new ArrayList<>();
+            sessionList.add(shopCartSession);
+            session.setAttribute(SessionKey.CART_SESSION,sessionList);
+        }
+
+        if (list != null) {
+            List<ShopCartSession> orderItemList = (List<ShopCartSession>) list;
+            orderItemList.add(shopCartSession);
+            session.setAttribute(SessionKey.CART_SESSION,list);
+        }
+
+        return "redirect:/item/view/{id}";
+    }
+
 
     @GetMapping("/item/list/{page}")
     public String pageView(@PathVariable Integer page , @RequestParam(defaultValue = "P") String sort,

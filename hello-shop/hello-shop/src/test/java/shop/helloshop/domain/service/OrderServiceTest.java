@@ -8,7 +8,7 @@ import shop.helloshop.domain.entity.DeliveryStatus;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.entity.items.Room;
-import shop.helloshop.web.dto.OrderItemDto;
+import shop.helloshop.web.dto.ShopCartSession;
 
 import javax.persistence.EntityManager;
 
@@ -40,15 +40,15 @@ class OrderServiceTest {
         memberService.save(member);
         itemService.save(item,member.getId());
 
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setId(item.getId());
-        orderItemDto.setCount(5);
+        ShopCartSession shopCartSession = new ShopCartSession();
+        shopCartSession.setId(item.getId());
+        shopCartSession.setCount(5);
 
         //when
-        List<OrderItemDto> orderItemDtoList = new ArrayList<>();
-        orderItemDtoList.add(orderItemDto);
+        List<ShopCartSession> shopCartSessionList = new ArrayList<>();
+        shopCartSessionList.add(shopCartSession);
 
-        Long orderId = orderService.order(member.getId(), orderItemDtoList);
+        Long orderId = orderService.order(member.getId(), shopCartSessionList);
 
         em.flush();
         em.clear();
@@ -74,14 +74,14 @@ class OrderServiceTest {
         memberService.save(member);
         itemService.save(item,member.getId());
 
-        OrderItemDto orderItemDto = new OrderItemDto();
-        orderItemDto.setId(item.getId());
-        orderItemDto.setCount(5);
+        ShopCartSession shopCartSession = new ShopCartSession();
+        shopCartSession.setId(item.getId());
+        shopCartSession.setCount(5);
 
         //when
-        List<OrderItemDto> orderItemDtoList = new ArrayList<>();
-        orderItemDtoList.add(orderItemDto);
-        Long orderId = orderService.order(member.getId(), orderItemDtoList);
+        List<ShopCartSession> shopCartSessionList = new ArrayList<>();
+        shopCartSessionList.add(shopCartSession);
+        Long orderId = orderService.order(member.getId(), shopCartSessionList);
         em.flush();
         em.clear();
         orderService.orderCancel(orderId);
