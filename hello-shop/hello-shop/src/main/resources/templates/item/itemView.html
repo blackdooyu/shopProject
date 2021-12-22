@@ -47,13 +47,14 @@
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:if="${check != null}" th:href="@{/item/delete/{id}(id=${check})}">삭제</a></div>
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
         </section>
     </form>
 
-    <form action="item.html" th:if="${item.itemSize != null}" th:action="@{/item/view/session/cart}" th:object="${item}" method="post">
+    <form action="item.html" th:if="${item.itemSize != null}" th:action th:object="${item}" method="post">
         <section class="py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="row gx-4 gx-lg-5 align-items-center">
@@ -71,8 +72,9 @@
                         </div>
 
                         <div class="d-flex">
-                            <input class="form-control text-center me-3" id="inputQuantity" type="num" th:value="@{{count}(count='1')}" style="max-width: 3rem" />
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <input type="number" name="count" class="form-control" id="count"
+                                   placeholder="주문 수량을 입력하세요">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i>
                                 Add to cart
                             </button>
@@ -87,6 +89,7 @@
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" th:if="${check != null}" th:href="@{/item/delete/{id}(id=${check})}">삭제</a></div>
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>

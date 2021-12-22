@@ -15,37 +15,34 @@
 <div th:replace="/fragments/nav.html :: nav"></div>
 
 
-<form th:if="${orderItem != null}" th:action th:value="${orderItem}" method="post">
+<form th:if="${orderList != null}" th:action th:value="${orderItem}" method="post">
     <table class="table table-striped">
-        <h3>장바구니 목록</h3>
+        <h3>주문 목록</h3>
         <thead>
         <tr>
-            <th>상품 id</th>
             <th>상품 이름</th>
-            <th>상품 개당가격</th>
-            <th>상품 주문수량</th>
-            <th>상품 총가격</th>
+            <th>주문 수량</th>
+            <th>결제 금액</th>
+            <th>주문 상태</th>
             <th></th>
             <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${orderItem}">
-            <td th:value="${item.id}" th:text="${item.id}"></td>
+        <tr th:each="item : ${orderList}">
             <td  th:text="${item.name}"></td>
-            <td  th:text="${item.price}"></td>
-            <td th:value="${item.count}" th:text="${item.count}"></td>
-            <td  th:text="${item.totalPrice}"></td>
+            <td  th:text="${item.quantity}"></td>
+            <td th:value="${item.totalPrice}" th:text="${item.totalPrice}"></td>
+            <td  th:text="${item.deliveryStatus}"></td>
         </tr>
         </tbody>
-        <h3 th:text="'합계 :'+${totalPrice} + '원'"></h3>
     </table>
     <button class="w-100 btn btn-lg btn-primary" type="submit">구매하기</button>
 </form>
 
-<form th:if="${orderItem == null}" th:action  method="post">
+<form th:if="${orderList == null}" th:action th:value="${orderItem}" method="post">
     <table class="table table-striped">
-        <h3>장바구니 목록</h3>
+        <h3>주문 목록</h3>
     </table>
 </form>
 

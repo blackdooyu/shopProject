@@ -7,14 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import shop.helloshop.domain.entity.Order;
+import shop.helloshop.domain.entity.OrderItem;
 import shop.helloshop.domain.entity.items.Item;
 import shop.helloshop.domain.service.ItemService;
 import shop.helloshop.domain.service.OrderService;
 import shop.helloshop.web.argumentresolver.Login;
-import shop.helloshop.web.dto.MemberSessionDto;
-import shop.helloshop.web.dto.OrderItemDto;
-import shop.helloshop.web.dto.ShopCartSession;
-import shop.helloshop.web.dto.SessionKey;
+import shop.helloshop.web.dto.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,6 +33,8 @@ public class OrderController {
     @GetMapping("/order")
     public String orderForm(Model model, HttpServletRequest request, @Login MemberSessionDto memberSessionDto) {
 
+        model.addAttribute("member",memberSessionDto);
+
         HttpSession session = request.getSession(false);
         Object sessionList = session.getAttribute(SessionKey.CART_SESSION);
 
@@ -41,9 +42,9 @@ public class OrderController {
 
         if(sessionList == null){
             model.addAttribute("orderItem",null);
+            return "/order/shopCart";
         }
 
-        if (sessionList != null) {
             List<ShopCartSession> cartList = (List<ShopCartSession>)sessionList;
             List<OrderItemDto> orderItemDtoList = new ArrayList<>();
 
@@ -57,16 +58,14 @@ public class OrderController {
 
             model.addAttribute("orderItem",orderItemDtoList);
             model.addAttribute("totalPrice",totalPrice);
-        }
 
-        model.addAttribute("member",memberSessionDto);
 
 
         return "/order/shopCart";
 
     }
 
-    @PostMapping("/order")
+    @PostMapping("/order")//수량 예외처리 필요함
     public String orderAdd(@Login MemberSessionDto memberSessionDto,HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
@@ -84,6 +83,39 @@ public class OrderController {
 
 
         return "redirect:/";
+    }
+
+    @GetMapping("/order/list")//주문 취소기능 필요함
+    public String orderListForm(@Login MemberSessionDto memberSessionDto,Model model) {
+
+        List<Order> orderList = orderService.findMemberOrders(memberSessionDto.getId());
+
+        model.addAttribute("member",memberSessionDto);
+
+        if (orderList.isEmpty()){
+            model.addAttribute("orderList",null);
+            return "order/orderList";
+        }
+
+        List<OrderDto> orderDtoList = orderListView(orderList);
+
+        model.addAttribute("orderList",orderDtoList);
+        return "order/orderList";
+    }
+
+
+    //주문 목록 생성
+    private List<OrderDto> orderListView(List<Order> orderList) {
+
+            List<OrderDto> orderDtoList = new ArrayList<>();
+            for (Order order : orderList) {
+                List<OrderItem> orderItemList = order.getOrderItems();
+                for (OrderItem orderItem : orderItemList) {
+                    OrderDto orderDto = new OrderDto(orderItem.getName(),orderItem.getOrderPrice(),orderItem.getCount(),order.getDeliveryStatus());
+                    orderDtoList.add(orderDto);
+                }
+            }
+        return orderDtoList;
     }
 
 }

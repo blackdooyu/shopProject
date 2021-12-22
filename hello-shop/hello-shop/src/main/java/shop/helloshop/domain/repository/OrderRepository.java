@@ -29,7 +29,7 @@ public class OrderRepository {
     }
 
     public List<Order> findMemberOrders(Long memberId) {
-        return em.createQuery("select o from Order o join fetch o.orderItems where o.member.id =:memberId",Order.class)
+        return em.createQuery("select distinct o from Order o join fetch o.orderItems where o.member.id =:memberId",Order.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
