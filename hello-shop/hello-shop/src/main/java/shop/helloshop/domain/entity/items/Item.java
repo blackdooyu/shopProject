@@ -57,7 +57,7 @@ public abstract class Item {
     //판매될시 수량 빼기, 판매량 증가,수량 체크 메서드
     public void sale(int quantity) {
         if(this.quantity - quantity < 0){
-            throw new ItemException("현재수량 주문수량보다 부족합니다.");
+            throw new ItemException("남은수량이 주문수량보다 부족합니다.");
         }
 
         this.quantity -= quantity;

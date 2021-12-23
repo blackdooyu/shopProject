@@ -7,6 +7,7 @@ import shop.helloshop.domain.entity.DeliveryStatus;
 @Getter @Setter
 public class OrderDto {
 
+    private Long id;
     private String name;
     private int totalPrice;
     private int quantity;
@@ -15,7 +16,8 @@ public class OrderDto {
     public OrderDto() {
     }
 
-    public OrderDto(String name, int totalPrice, int quantity, DeliveryStatus deliveryStatus) {
+    public OrderDto(Long id,String name, int totalPrice, int quantity, DeliveryStatus deliveryStatus) {
+        this.id =id;
         this.name = name;
         this.totalPrice = totalPrice;
         this.quantity = quantity;

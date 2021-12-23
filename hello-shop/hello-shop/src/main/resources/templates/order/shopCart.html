@@ -18,6 +18,7 @@
 <form th:if="${orderItem != null}" th:action th:value="${orderItem}" method="post">
     <table class="table table-striped">
         <h3>장바구니 목록</h3>
+        <h3 th:if="${error != null}" th:text="${error}"></h3>
         <thead>
         <tr>
             <th>상품 id</th>
@@ -41,6 +42,10 @@
         <h3 th:text="'합계 :'+${totalPrice} + '원'"></h3>
     </table>
     <button class="w-100 btn btn-lg btn-primary" type="submit">구매하기</button>
+</form>
+
+<form th:if="${orderItem != null}" action="/shopCart/delete" method="post">
+    <button class="w-100 btn btn-lg btn-primary" type="submit">장바구니 비우기</button>
 </form>
 
 <form th:if="${orderItem == null}" th:action  method="post">

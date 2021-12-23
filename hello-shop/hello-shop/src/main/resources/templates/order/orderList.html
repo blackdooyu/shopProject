@@ -33,11 +33,19 @@
             <td  th:text="${item.name}"></td>
             <td  th:text="${item.quantity}"></td>
             <td th:value="${item.totalPrice}" th:text="${item.totalPrice}"></td>
-            <td  th:text="${item.deliveryStatus}"></td>
+            <td  th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}"
+                 th:text="'주문 준비중'"></td>
+            <td  th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).CANCEL}"
+                 th:text="'취소'"></td>
+            <td>
+            <td>
+                <a th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}" href="#"
+                   th:href="@{/order/cancel/{id}(id=${item.id})}"
+                   class="btn btn-danger">주문취소</a>
+            </td>
         </tr>
         </tbody>
     </table>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">구매하기</button>
 </form>
 
 <form th:if="${orderList == null}" th:action th:value="${orderItem}" method="post">

@@ -4,9 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import shop.helloshop.domain.entity.Order;
 import shop.helloshop.domain.entity.OrderItem;
 import shop.helloshop.domain.entity.items.Item;
@@ -14,6 +13,7 @@ import shop.helloshop.domain.service.ItemService;
 import shop.helloshop.domain.service.OrderService;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.*;
+import shop.helloshop.web.exception.ItemException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,10 +30,23 @@ public class OrderController {
     private final ItemService itemService;
 
 
+    @PostMapping("/shopCart/delete")
+    public String shopCartDelete(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute(SessionKey.CART_SESSION);
+        return "redirect:/order";
+    }
+
+
     @GetMapping("/order")
-    public String orderForm(Model model, HttpServletRequest request, @Login MemberSessionDto memberSessionDto) {
+    public String orderForm(Model model, HttpServletRequest request, @Login MemberSessionDto memberSessionDto,
+                            @RequestParam(name = "error",defaultValue = "") String error) {
 
         model.addAttribute("member",memberSessionDto);
+
+        if (!error.isEmpty()){
+            model.addAttribute("error",error);
+        }
 
         HttpSession session = request.getSession(false);
         Object sessionList = session.getAttribute(SessionKey.CART_SESSION);
@@ -65,8 +78,9 @@ public class OrderController {
 
     }
 
-    @PostMapping("/order")//수량 예외처리 필요함
-    public String orderAdd(@Login MemberSessionDto memberSessionDto,HttpServletRequest request) {
+    @PostMapping("/order")
+    public String orderAdd(@Login MemberSessionDto memberSessionDto,HttpServletRequest request,
+                           RedirectAttributes redirectAttributes) {
 
         HttpSession session = request.getSession(false);
         Object list = session.getAttribute(SessionKey.CART_SESSION);
@@ -77,7 +91,13 @@ public class OrderController {
 
         List<ShopCartSession> shopCartList = (List<ShopCartSession>) list;
 
-        orderService.order(memberSessionDto.getId(), shopCartList);
+        try {
+            orderService.order(memberSessionDto.getId(), shopCartList);
+        } catch (ItemException e) {
+            log.info("=========={}",e.getMessage());
+            redirectAttributes.addAttribute("error",e.getMessage());
+            return "redirect:/order";
+        }
 
         session.removeAttribute(SessionKey.CART_SESSION);
 
@@ -85,7 +105,7 @@ public class OrderController {
         return "redirect:/";
     }
 
-    @GetMapping("/order/list")//주문 취소기능 필요함
+    @GetMapping("/order/list")
     public String orderListForm(@Login MemberSessionDto memberSessionDto,Model model) {
 
         List<Order> orderList = orderService.findMemberOrders(memberSessionDto.getId());
@@ -103,6 +123,22 @@ public class OrderController {
         return "order/orderList";
     }
 
+    @GetMapping("/order/cancel/{id}")
+    public String orderCancel(@PathVariable Long id,@Login MemberSessionDto memberSessionDto){
+
+        if (id == null){
+            return "redirect:/order/list";
+        }
+
+        Order findOrder = orderService.findOne(id);
+
+        if (findOrder.getMember().getId() == memberSessionDto.getId()) {
+            orderService.orderCancel(id);
+        }
+
+        return "redirect:/order/list";
+    }
+
 
     //주문 목록 생성
     private List<OrderDto> orderListView(List<Order> orderList) {
@@ -111,7 +147,7 @@ public class OrderController {
             for (Order order : orderList) {
                 List<OrderItem> orderItemList = order.getOrderItems();
                 for (OrderItem orderItem : orderItemList) {
-                    OrderDto orderDto = new OrderDto(orderItem.getName(),orderItem.getOrderPrice(),orderItem.getCount(),order.getDeliveryStatus());
+                    OrderDto orderDto = new OrderDto(order.getId(),orderItem.getName(),orderItem.getOrderPrice(),orderItem.getCount(),order.getDeliveryStatus());
                     orderDtoList.add(orderDto);
                 }
             }
