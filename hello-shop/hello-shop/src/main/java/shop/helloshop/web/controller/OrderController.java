@@ -14,9 +14,12 @@ import shop.helloshop.domain.service.OrderService;
 import shop.helloshop.web.argumentresolver.Login;
 import shop.helloshop.web.dto.*;
 import shop.helloshop.web.exception.ItemException;
+import shop.helloshop.web.exception.OrderException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +97,6 @@ public class OrderController {
         try {
             orderService.order(memberSessionDto.getId(), shopCartList);
         } catch (ItemException e) {
-            log.info("=========={}",e.getMessage());
             redirectAttributes.addAttribute("error",e.getMessage());
             return "redirect:/order";
         }
@@ -124,7 +126,8 @@ public class OrderController {
     }
 
     @GetMapping("/order/cancel/{id}")
-    public String orderCancel(@PathVariable Long id,@Login MemberSessionDto memberSessionDto){
+    public String orderCancel(@PathVariable Long id, @Login MemberSessionDto memberSessionDto, Model model,
+                              HttpServletResponse response) throws IOException {
 
         if (id == null){
             return "redirect:/order/list";
@@ -132,8 +135,17 @@ public class OrderController {
 
         Order findOrder = orderService.findOne(id);
 
+        if(findOrder == null){
+            return "redirect:/order/list";
+        }
+
         if (findOrder.getMember().getId() == memberSessionDto.getId()) {
-            orderService.orderCancel(id);
+            try {
+                orderService.orderCancel(id);
+            } catch (OrderException e) {
+                log.info("====={}====",e.getMessage());
+                return "redirect:/order/list";
+            }
         }
 
         return "redirect:/order/list";

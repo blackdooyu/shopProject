@@ -24,7 +24,7 @@ public class OrderRepository {
     }
 
     public List<Order> findAll() {
-        return em.createQuery("select o from Order o",Order.class)
+        return em.createQuery("select o from Order o join fetch o.member",Order.class)
                 .getResultList();
     }
 

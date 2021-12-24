@@ -17,33 +17,22 @@
 
 <form th:if="${orderList != null}" th:action th:value="${orderItem}" method="post">
     <table class="table table-striped">
-        <h3>주문 목록</h3>
+        <h3>주문 관리</h3>
         <thead>
         <tr>
-            <th>상품 이름</th>
-            <th>주문 수량</th>
-            <th>결제 금액</th>
+            <th>주문 id</th>
+            <th>주문자 email</th>
             <th>주문 상태</th>
-            <th></th>
-            <th></th>
+            <th>주문상태 변경</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${orderList}">
-            <td  th:text="${item.name}"></td>
-            <td  th:text="${item.quantity}"></td>
-            <td th:value="${item.totalPrice}" th:text="${item.totalPrice}"></td>
-            <td  th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}"
-                 th:text="'배송 준비중'"></td>
-            <td  th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).CANCEL}"
-                 th:text="'취소'"></td>
-            <td  th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).COMP}"
-                 th:text="'배송 완료'"></td>
-            <td>
-            <td>
-                <a th:if="${item.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}" href="#"
-                   th:href="@{/order/cancel/{id}(id=${item.id})}"
-                   class="btn btn-danger">주문취소</a>
+        <tr th:each="order : ${orderList}">
+            <td th:value="${order.id}" th:text="${order.id}"></td>
+            <td  th:text="${order.email}"></td>
+            <td  th:text="${order.deliveryStatus}"></td>
+            <td th:if="${order.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}">
+                <button class="w-100 btn btn-lg btn-primary" type="submit">배송시작</button>
             </td>
         </tr>
         </tbody>
