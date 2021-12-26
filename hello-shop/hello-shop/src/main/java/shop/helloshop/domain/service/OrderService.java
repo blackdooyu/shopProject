@@ -45,6 +45,12 @@ public class OrderService {
         return orderId;
     }
 
+    @Transactional
+    public void updateOrder(Long id,Order order) {
+        Order findOrder = orderRepository.findOne(id);
+        findOrder.setDeliveryStatus(order.getDeliveryStatus());
+    }
+
     public Order findOne(Long id) {
        return orderRepository.findOne(id);
     }

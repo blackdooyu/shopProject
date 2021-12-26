@@ -5,7 +5,9 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import shop.helloshop.domain.entity.*;
 import shop.helloshop.domain.service.MemberService;
 import shop.helloshop.domain.service.OrderService;
@@ -57,14 +59,24 @@ public class ManagerController {
         return "/manager/management";
     }
 
-    @PostMapping("/manager/order")
-    public String statusChange(@Login MemberSessionDto memberSessionDto) {
+    @PostMapping("/manager/order/{id}")
+    public String statusChange(@Login MemberSessionDto memberSessionDto, @PathVariable Long id) {
 
         Member findMember = memberService.findOne(memberSessionDto.getId());
 
         if(!findMember.getMemberGrade().equals(MemberGrade.MANAGER)){
             return "redirect:/";
         }
+
+        Order findOrder = orderService.findOne(id);
+
+        if(findOrder == null){
+            return "redirect:/";
+        }
+
+        findOrder.setDeliveryStatus(DeliveryStatus.COMP);
+
+        orderService.updateOrder(findOrder.getId(),findOrder);
 
         return "redirect:/manager/order";
     }

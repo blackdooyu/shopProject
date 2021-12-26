@@ -23,16 +23,22 @@
             <th>주문 id</th>
             <th>주문자 email</th>
             <th>주문 상태</th>
-            <th>주문상태 변경</th>
+            <th>배송 시작</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="order : ${orderList}">
             <td th:value="${order.id}" th:text="${order.id}"></td>
             <td  th:text="${order.email}"></td>
-            <td  th:text="${order.deliveryStatus}"></td>
+            <td th:if="${order.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}"
+             th:text="'배송준비'"></td>
+            <td th:if="${order.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).CANCEL}"
+                th:text="'배송취소'"></td>
+            <td th:if="${order.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).COMP}"
+                th:text="'배송완료'"></td>
             <td th:if="${order.deliveryStatus} == ${T(shop.helloshop.domain.entity.DeliveryStatus).READY}">
-                <button class="w-100 btn btn-lg btn-primary" type="submit">배송시작</button>
+                <button class="w-100 btn btn-lg btn-primary" type="submit"
+                th:formaction="@{/manager/order/{id}(id=${order.id})}">배송시작</button>
             </td>
         </tr>
         </tbody>

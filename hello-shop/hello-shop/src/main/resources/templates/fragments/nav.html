@@ -59,13 +59,20 @@
             <form class="d-flex" th:unless="${member == null}">
                 <div class="dropdown">
                     <button class="dropbtn"  th:text="${member.name}">Dropdown</button>
-                    <div class="dropdown-content">
+                    <div class="dropdown-content" th:if="${member.memberGrade == T(shop.helloshop.domain.entity.MemberGrade).MANAGER}">
                         <a href="/member/update/check">회원수정</a>
                         <a th:if="${member.memberGrade == T(shop.helloshop.domain.entity.MemberGrade).MANAGER}" href="/item/select">상품 추가</a>
+                        <a href="/manager/order">배송관리</a>
+                        <a href="/logout">로그아웃</a>
+                    </div>
+
+                    <div class="dropdown-content" th:if="${member.memberGrade == T(shop.helloshop.domain.entity.MemberGrade).BASIC}">
+                        <a href="/member/update/check">회원수정</a>
                         <a href="/order">장바구니</a>
                         <a href="/order/list">구매목록</a>
                         <a href="/logout">로그아웃</a>
                     </div>
+
                 </div>
                 </button>
             </form>
