@@ -126,8 +126,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/cancel/{id}")
-    public String orderCancel(@PathVariable Long id, @Login MemberSessionDto memberSessionDto, Model model,
-                              HttpServletResponse response) throws IOException {
+    public String orderCancel(@PathVariable Long id, @Login MemberSessionDto memberSessionDto) throws IOException {
 
         if (id == null){
             return "redirect:/order/list";

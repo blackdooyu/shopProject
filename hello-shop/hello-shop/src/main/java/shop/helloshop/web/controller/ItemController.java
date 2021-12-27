@@ -33,7 +33,6 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
-    private final MemberService memberService;
     private final FileChange fileChange;
 
 

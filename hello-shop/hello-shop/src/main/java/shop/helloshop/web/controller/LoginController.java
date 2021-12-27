@@ -142,7 +142,7 @@ public class LoginController {
 
     @PostMapping("/member/update/check")
     public String passwordCheck(@Validated @ModelAttribute PasswordForm password, BindingResult bindingResult, @Login MemberSessionDto memberSessionDto
-                               ) {
+                               ,HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "/login/passwordCheck";
@@ -154,6 +154,11 @@ public class LoginController {
             bindingResult.reject("passwordMismatch", "비밀번호가 맞지 않습니다");
             return "/login/passwordCheck";
         }
+
+        Long check = 1L;
+
+        HttpSession session = request.getSession(false);
+        session.setAttribute(SessionKey.MEMBER_UPDATE_CHECK,check);
 
 
         return "redirect:/member/update";
@@ -171,10 +176,9 @@ public class LoginController {
         return "/login/updateForm";
     }
 
-    //세션으로만 체크할경우 비밀번호 설정을 건너뛸수 있기때문에 보강 필요
     @PostMapping("/member/update")
     public String memberUpdate(@Validated @ModelAttribute("update") MemberDto memberDto,BindingResult bindingResult,
-                               @Login MemberSessionDto memberSessionDto) {
+                               @Login MemberSessionDto memberSessionDto,HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "/login/updateForm";
@@ -182,6 +186,9 @@ public class LoginController {
 
         memberDto.setId(memberSessionDto.getId());
         memberService.update(memberDto);
+
+        HttpSession session = request.getSession();
+        session.removeAttribute(SessionKey.MEMBER_UPDATE_CHECK);
 
         return "redirect:/logout";
     }
