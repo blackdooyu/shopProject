@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.DeliveryStatus;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.items.Item;
-import shop.helloshop.domain.entity.items.Room;
+import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.web.dto.ShopCartSession;
 
 import javax.persistence.EntityManager;
@@ -35,7 +35,7 @@ class OrderServiceTest {
 
         //given
         Member member = createMember("회원1");
-        Item item = createRoom("상품1");
+        Item item = createPhone("상품1");
 
         memberService.save(member);
         itemService.save(item,member.getId());
@@ -69,7 +69,7 @@ class OrderServiceTest {
 
         //given
         Member member = createMember("회원1");
-        Item item = createRoom("상품1");
+        Item item = createPhone("상품1");
 
         memberService.save(member);
         itemService.save(item,member.getId());
@@ -93,11 +93,10 @@ class OrderServiceTest {
 
     }
 
-    private Item createRoom(String name) {
-        Room item = new Room();
+    private Item createPhone(String name) {
+        Phone item = new Phone();
         item.setPrice(15000);
         item.setQuantity(10);
-        item.setDay("20211001");
         item.setName(name);
         return item;
     }

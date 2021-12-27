@@ -1,10 +1,9 @@
 package shop.helloshop.entity;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shop.helloshop.domain.entity.*;
 import shop.helloshop.domain.entity.items.Item;
-import shop.helloshop.domain.entity.items.Room;
+import shop.helloshop.domain.entity.items.Phone;
 import shop.helloshop.web.dto.MemberDto;
 
 import java.util.ArrayList;
@@ -152,7 +151,7 @@ public class EntityTest {
     }
 
     private Item getItem() {
-        Item item = new Room();
+        Item item = new Phone();
         item.setPrice(500);
         item.setName("상품1");
         item.setQuantity(15);

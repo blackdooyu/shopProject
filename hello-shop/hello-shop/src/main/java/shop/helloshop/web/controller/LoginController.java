@@ -34,33 +34,20 @@ public class LoginController {
     private final MemberService memberService;
     private final ItemService itemService;
 
-    @PostConstruct
-    public void initMethod() {
-        Member member = new Member();
-        member.setName("테스트");
-        member.setEmail("asd123@naver.com");
-        member.setPassword("123123");
-        member.setAddress(new Address("1","2","3"));
-        member.setMemberGrade(MemberGrade.MANAGER);
-
-        memberService.save(member);
-    }
-
 
     @GetMapping("/")
     public String homepage(@Login MemberSessionDto sessionDto, Model model) {
 
 
         List<Item> list = itemService.findHomeList();
-        List<ItemViewForm> viewForm =new ArrayList<>();
+        List<ItemViewForm> viewItemList =new ArrayList<>();
 
-        log.info("{}",list.size());
 
         for (Item view : list){
-            viewForm.add(ItemViewForm.createViewHome(view.getId(),view.getName(),view.getPrice(),view.getUploadFiles()));
+            viewItemList.add(ItemViewForm.createViewHome(view.getId(),view.getName(),view.getPrice(),view.getUploadFiles()));
         }
 
-        model.addAttribute("items", viewForm);
+        model.addAttribute("items", viewItemList);
         model.addAttribute("member", sessionDto);
 
         return "home";

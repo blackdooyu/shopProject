@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.items.Item;
-import shop.helloshop.domain.entity.items.Room;
+import shop.helloshop.domain.entity.items.Phone;
 
 import javax.persistence.EntityManager;
 
@@ -28,7 +28,7 @@ class ItemServiceTest {
         //given
         Member member1 = createMember("회원1");
         Long memberId = memberService.save(member1);
-        Item item = createRoom("상품1");
+        Item item = createPhone("상품1");
 
         //when
         itemService.save(item,memberId);
@@ -47,7 +47,7 @@ class ItemServiceTest {
         //given
         Member member1 = createMember("회원1");
         Long memberId = memberService.save(member1);
-        Item item = createRoom("상품1");
+        Item item = createPhone("상품1");
         itemService.save(item,memberId);
         String update = "업데이트";
 
@@ -69,7 +69,7 @@ class ItemServiceTest {
         //given
         Member member1 = createMember("회원1");
         Long memberId = memberService.save(member1);
-        Item item = createRoom("상품1");
+        Item item = createPhone("상품1");
         itemService.save(item,memberId);
 
         //when
@@ -87,9 +87,9 @@ class ItemServiceTest {
         //given
         Member member1 = createMember("회원1");
         Long memberId = memberService.save(member1);
-        Item item = createRoom("상품1");
-        Item item2 = createRoom("상품2");
-        Item item3 = createRoom("상품3");
+        Item item = createPhone("상품1");
+        Item item2 = createPhone("상품2");
+        Item item3 = createPhone("상품3");
         itemService.save(item,memberId);
         itemService.save(item2,memberId);
         itemService.save(item3,memberId);
@@ -99,13 +99,12 @@ class ItemServiceTest {
         em.clear();
 
         //then
-      assertEquals(itemService.findList("all",1).size(),3);
+      assertEquals(itemService.findCount(),3);
 
     }
 
-    private Item createRoom(String name) {
-        Room item = new Room();
-        item.setDay("20211001");
+    private Item createPhone(String name) {
+        Phone item = new Phone();
         item.setName(name);
         return item;
     }

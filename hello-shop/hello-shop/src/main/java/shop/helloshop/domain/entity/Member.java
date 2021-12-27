@@ -32,12 +32,6 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Item> itemList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member",cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Board> boardList = new ArrayList<>();
-
     @Embedded
     private Address address;
 
