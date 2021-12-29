@@ -13,8 +13,7 @@ import javax.persistence.Enumerated;
 @Getter @Setter
 public class Clothes extends Item{
 
-    private String brand;
-
     @Enumerated(EnumType.STRING)
     private ItemSize itemSize;
+
 }
