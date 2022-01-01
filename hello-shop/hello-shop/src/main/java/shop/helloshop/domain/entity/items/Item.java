@@ -3,6 +3,7 @@ package shop.helloshop.domain.entity.items;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
+import shop.helloshop.domain.entity.Comment;
 import shop.helloshop.domain.entity.Member;
 import shop.helloshop.domain.entity.OrderItem;
 import shop.helloshop.domain.entity.UploadFile;
@@ -32,6 +33,9 @@ public abstract class Item {
     private LocalDateTime localDateTime;
 
     private int salesQuantity;
+
+    @OneToMany(mappedBy = "item")
+    private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "item",cascade = CascadeType.ALL,orphanRemoval = true)
     @BatchSize(size = 16)
